@@ -1,0 +1,279 @@
+---
+title: Spectrum Switcher
+description: Interactive spectrum switcher with animated gradients, smooth dropdown transitions, and selectable themed color palettes.
+---
+
+## Overview
+
+Spectrum Switcher is a sophisticated dropdown component for selecting between different color palettes or themes. It features smooth animations, collapsible dropdown transitions, and visually appealing gradient previews that morph between states.
+
+### Key features
+
+- Animated dropdown with smooth expand/collapse transitions
+- Color spectrum previews with gradient backgrounds
+- Shared layout animations for spectrum boxes
+- Blur and fade effects during state transitions
+- Customizable spectrum definitions
+- Dark mode support with separate gradient colors
+
+### When to use it
+
+- Theme or color palette selection interfaces
+- Style customization panels
+- Design system showcases
+- Any UI requiring elegant option selection with visual previews
+
+## Installation
+
+```bash
+npx shadcn add spectrum-switcher
+```
+
+## Usage
+
+### Basic example
+
+```tsx
+import SpectrumSwitcher from "@/components/forgeui/spectrum-switcher";
+
+export default function Demo() {
+  return <SpectrumSwitcher />;
+}
+```
+
+### Custom spectrums
+
+```tsx
+import SpectrumSwitcher from "@/components/forgeui/spectrum-switcher";
+
+const customSpectrums = [
+  {
+    id: "ocean",
+    name: "Ocean Breeze",
+    description: "Cool and calming tones",
+    color: "bg-gradient-to-br from-blue-400 via-cyan-300 to-teal-200",
+    darkColor: "dark:from-blue-600 dark:via-cyan-500 dark:to-teal-400",
+    layoutId: "spectrum-ocean",
+  },
+  {
+    id: "forest",
+    name: "Forest Green",
+    description: "Natural earth palette",
+    color: "bg-gradient-to-br from-green-400 via-emerald-300 to-lime-200",
+    darkColor: "dark:from-green-600 dark:via-emerald-500 dark:to-lime-400",
+    layoutId: "spectrum-forest",
+  },
+];
+
+export default function CustomDemo() {
+  return <SpectrumSwitcher spectrums={customSpectrums} />;
+}
+```
+
+## Props
+
+<ParamField path="spectrums" type="Spectrum[]" default="defaultSpectrums">
+  Array of spectrum definitions. Each spectrum object must include:
+  
+  - `id` (string): Unique identifier for the spectrum
+  - `name` (string): Display name shown in the dropdown
+  - `description` (string): Subtitle text describing the palette
+  - `color` (string): Tailwind gradient classes for light mode
+  - `darkColor` (string): Tailwind gradient classes for dark mode
+  - `layoutId` (string): Unique Motion layout ID for animations
+  
+  If not provided, uses default "Sunset Glow" and "Lavender Mist" palettes.
+</ParamField>
+
+## Types
+
+### Spectrum
+
+```tsx
+type Spectrum = {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  darkColor: string;
+  layoutId: string;
+};
+```
+
+### SpectrumSwitcherProps
+
+```tsx
+type SpectrumSwitcherProps = {
+  spectrums?: Spectrum[];
+};
+```
+
+## Examples
+
+### Default spectrums
+
+The component ships with two built-in spectrum options:
+
+```tsx
+import SpectrumSwitcher from "@/components/forgeui/spectrum-switcher";
+
+export default function DefaultSpectrums() {
+  return <SpectrumSwitcher />;
+}
+```
+
+This renders:
+- **Sunset Glow**: Warm and bold ambience (rose, orange, yellow)
+- **Lavender Mist**: Soft and dreamy palette (purple, pink, fuchsia)
+
+### Multiple custom palettes
+
+```tsx
+import SpectrumSwitcher from "@/components/forgeui/spectrum-switcher";
+
+const brandSpectrums = [
+  {
+    id: "primary",
+    name: "Brand Primary",
+    description: "Core brand colors",
+    color: "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+    darkColor: "dark:from-indigo-600 dark:via-purple-600 dark:to-pink-600",
+    layoutId: "spectrum-primary",
+  },
+  {
+    id: "secondary",
+    name: "Brand Secondary",
+    description: "Complementary palette",
+    color: "bg-gradient-to-br from-amber-400 via-orange-400 to-red-400",
+    darkColor: "dark:from-amber-500 dark:via-orange-500 dark:to-red-500",
+    layoutId: "spectrum-secondary",
+  },
+  {
+    id: "neutral",
+    name: "Neutral Tones",
+    description: "Subtle and professional",
+    color: "bg-gradient-to-br from-slate-300 via-gray-300 to-zinc-300",
+    darkColor: "dark:from-slate-600 dark:via-gray-600 dark:to-zinc-600",
+    layoutId: "spectrum-neutral",
+  },
+];
+
+export default function BrandPalettes() {
+  return <SpectrumSwitcher spectrums={brandSpectrums} />;
+}
+```
+
+## Customization
+
+### Animation variants
+
+The component uses custom Motion variants for different animations:
+
+#### Item variant (text content)
+
+```tsx
+const itemVariant: Variants = {
+  open: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.4,
+      ease: "easeInOut",
+    },
+  },
+  close: {
+    opacity: 0,
+    y: -5,
+    filter: "blur(5px)",
+    transition: {
+      duration: 0.1,
+      ease: "easeInOut",
+    },
+  },
+};
+```
+
+#### Divider variant
+
+```tsx
+const dividerVariant: Variants = {
+  open: {
+    opacity: 1,
+    scaleX: 1,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+  close: {
+    opacity: 0,
+    scaleX: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+};
+```
+
+### Layout animation
+
+Spectrum boxes use shared layout animations with spring physics:
+
+```tsx
+transition={{
+  type: "spring",
+  stiffness: 200,
+  damping: 25,
+}}
+```
+
+You can adjust these values in the source file to modify animation feel.
+
+### Styling
+
+Key styling areas you can customize:
+
+- **Container**: Modify border and padding at `components/forgeui/spectrum-switcher.tsx:88-93`
+- **Header section**: Adjust background gradients and rings at `components/forgeui/spectrum-switcher.tsx:94-100`
+- **Icon container**: Change shadow and ring effects at `components/forgeui/spectrum-switcher.tsx:106-113`
+- **Dropdown items**: Update hover states at `components/forgeui/spectrum-switcher.tsx:211`
+
+### Icon customization
+
+<Note>
+  The component uses `GiFairyWand` from `react-icons/gi` and `MdKeyboardArrowDown` from `react-icons/md`. You can replace these with your own icons by modifying the imports and JSX.
+</Note>
+
+## Component details
+
+### State management
+
+The component manages two internal states:
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+const [selectedSpectrum, setSelectedSpectrum] = useState(spectrums[0]);
+```
+
+- `isOpen`: Controls dropdown visibility
+- `selectedSpectrum`: Tracks currently selected palette
+
+### Dropdown behavior
+
+When closed, spectrum previews appear as small color boxes next to the toggle button. When opened, they expand into full-width selectable options with descriptions.
+
+### Layout IDs
+
+<Warning>
+  Each spectrum must have a unique `layoutId` to enable proper shared layout animations. Duplicate IDs will cause animation conflicts.
+</Warning>
+
+### AnimatePresence modes
+
+The component uses `mode="wait"` for the selected spectrum text to ensure smooth transitions between different selections without overlapping content.
+
+<Tip>
+  For best results, use 2-4 spectrum options. Too many options may require scrolling or additional UI considerations.
+</Tip>

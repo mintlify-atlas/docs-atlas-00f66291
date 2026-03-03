@@ -1,0 +1,236 @@
+---
+title: Expandable card
+description: Interactive UI component to expand cards with smooth animations and detailed content using layout transitions.
+---
+
+## Overview
+
+The expandable card component allows users to click on compact card items to expand them into a detailed view with smooth layout animations. It features:
+
+- Smooth layout transitions powered by Motion
+- Backdrop blur overlay when expanded
+- Click outside to close functionality
+- Customizable card content with icons, titles, and descriptions
+- Responsive hover effects
+
+**Use cases:**
+- Product listings with detailed information
+- Project portfolios with expandable details
+- Feature showcases
+- Documentation navigation with expandable sections
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/expandable-card
+```
+
+## Usage
+
+The expandable card requires an array of card items with structured content. Each item includes an icon, title, subtitle, description, details, and metadata.
+
+```tsx
+import ExpandableCard, { CardItem, MetaMask, Upstash, Firebase } from "@/components/forgeui/expandable-card";
+
+const items: CardItem[] = [
+  {
+    id: "1",
+    title: "MetaMask Integration",
+    subtitle: "Wallet",
+    icon: <MetaMask className="h-10 w-10" />,
+    description: "Blockchain",
+    details: "Connect your MetaMask wallet to access decentralized applications and manage your crypto assets securely. This integration provides seamless authentication and transaction signing.",
+    metadata: "v10.25.0 • Installed",
+  },
+  {
+    id: "2",
+    title: "Upstash Redis",
+    subtitle: "Database",
+    icon: <Upstash className="h-10 w-10" />,
+    description: "Serverless",
+    details: "Serverless Redis database for edge computing. Upstash provides ultra-low latency data access with automatic scaling and global replication.",
+    metadata: "v1.2.0 • Connected",
+  },
+  {
+    id: "3",
+    title: "Firebase",
+    subtitle: "Backend",
+    icon: <Firebase className="h-10 w-10" />,
+    description: "Google Cloud",
+    details: "Comprehensive app development platform by Google. Firebase offers authentication, real-time database, cloud storage, and hosting services all in one place.",
+    metadata: "v9.15.0 • Active",
+  },
+];
+
+export default function Example() {
+  return <ExpandableCard items={items} />;
+}
+```
+
+## Props
+
+### ExpandableCard
+
+<ParamField path="items" type="CardItem[]" required>
+  Array of card items to display. Each item must follow the CardItem interface.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Optional CSS class name for additional styling of the container.
+</ParamField>
+
+### CardItem interface
+
+<ParamField path="id" type="string" required>
+  Unique identifier for the card item. Used for layout animations.
+</ParamField>
+
+<ParamField path="title" type="string" required>
+  Main title displayed on the card.
+</ParamField>
+
+<ParamField path="subtitle" type="string" required>
+  Secondary text displayed below the title.
+</ParamField>
+
+<ParamField path="icon" type="React.ReactNode" required>
+  Icon element displayed on the left side of the card.
+</ParamField>
+
+<ParamField path="description" type="string" required>
+  Additional description text shown next to the subtitle.
+</ParamField>
+
+<ParamField path="details" type="string" required>
+  Detailed content that appears when the card is expanded.
+</ParamField>
+
+<ParamField path="metadata" type="string" required>
+  Metadata information displayed at the bottom of the card (e.g., version, status).
+</ParamField>
+
+## Examples
+
+### Basic expandable cards
+
+```tsx
+import ExpandableCard, { CardItem } from "@/components/forgeui/expandable-card";
+import { Package } from "lucide-react";
+
+const items: CardItem[] = [
+  {
+    id: "item-1",
+    title: "Component Library",
+    subtitle: "UI Kit",
+    icon: <Package className="h-10 w-10" />,
+    description: "React",
+    details: "A comprehensive collection of reusable UI components built with React and TypeScript. Includes buttons, forms, modals, and more.",
+    metadata: "50+ components",
+  },
+];
+
+export default function Example() {
+  return <ExpandableCard items={items} />;
+}
+```
+
+### Custom styling
+
+```tsx
+import ExpandableCard, { CardItem } from "@/components/forgeui/expandable-card";
+
+const items: CardItem[] = [
+  // ... your items
+];
+
+export default function Example() {
+  return (
+    <ExpandableCard 
+      items={items} 
+      className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950"
+    />
+  );
+}
+```
+
+### With custom icons
+
+The component includes three built-in icon components (MetaMask, Upstash, Firebase), but you can use any React component as an icon:
+
+```tsx
+import ExpandableCard, { CardItem } from "@/components/forgeui/expandable-card";
+import { Database, Cloud, Lock } from "lucide-react";
+
+const items: CardItem[] = [
+  {
+    id: "1",
+    title: "Database",
+    subtitle: "PostgreSQL",
+    icon: <Database className="h-10 w-10 text-blue-500" />,
+    description: "SQL",
+    details: "Powerful relational database with ACID compliance.",
+    metadata: "v14.0",
+  },
+  {
+    id: "2",
+    title: "Cloud Storage",
+    subtitle: "S3 Compatible",
+    icon: <Cloud className="h-10 w-10 text-orange-500" />,
+    description: "Storage",
+    details: "Scalable object storage for your application data.",
+    metadata: "Unlimited",
+  },
+  {
+    id: "3",
+    title: "Encryption",
+    subtitle: "AES-256",
+    icon: <Lock className="h-10 w-10 text-green-500" />,
+    description: "Security",
+    details: "End-to-end encryption for sensitive data.",
+    metadata: "Enterprise",
+  },
+];
+
+export default function Example() {
+  return <ExpandableCard items={items} />;
+}
+```
+
+## Customization
+
+### Animation timing
+
+The component uses Motion's layout animations. You can customize animation timing by modifying the transition properties in the component source:
+
+```tsx
+<motion.div
+  layout
+  transition={{
+    duration: 0.3,  // Adjust animation speed
+    ease: "easeInOut",  // Change easing function
+  }}
+>
+```
+
+### Backdrop styling
+
+Customize the backdrop overlay that appears when a card is expanded:
+
+```tsx
+// In the component, modify this section
+<motion.div
+  className="absolute inset-0 z-10 bg-background/50 backdrop-blur-xl"
+  // Change opacity: bg-background/70
+  // Change blur: backdrop-blur-2xl
+/>
+```
+
+### Card dimensions
+
+Adjust the expanded card size by modifying the max-width class:
+
+```tsx
+<motion.div
+  className="w-full max-w-xl"  // Change to max-w-2xl, max-w-3xl, etc.
+/>
+```

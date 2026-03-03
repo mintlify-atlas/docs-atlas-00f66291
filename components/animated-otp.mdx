@@ -1,0 +1,183 @@
+---
+title: Animated OTP
+description: Looping animated OTP input with glowing digit transitions to simulate secure, timed authentication flow.
+---
+
+## Overview
+
+The Animated OTP component creates a visually engaging one-time password input demonstration with sequential digit animations and glowing border effects. It simulates a secure authentication flow with timed transitions and dramatic visual feedback.
+
+Key features:
+- Sequential digit reveal animation
+- Glowing border that moves across each input box
+- Synchronized fade-out animation on completion
+- Automatic looping for continuous demonstration
+- Customizable card title and description
+- Cyan glow effects with blur animations
+- Responsive design with dark mode support
+
+Use this component when you want to:
+- Showcase OTP authentication in demos or presentations
+- Demonstrate security features on landing pages
+- Create engaging authentication UI previews
+- Illustrate timed authentication flows
+
+## Installation
+
+```bash
+npx shadcn add animated-otp
+```
+
+## Usage
+
+```tsx
+import AnimatedOTP from "@/components/forgeui/animated-otp";
+
+export default function Demo() {
+  return <AnimatedOTP />;
+}
+```
+
+### With custom props
+
+```tsx
+import AnimatedOTP from "@/components/forgeui/animated-otp";
+
+export default function Demo() {
+  return (
+    <AnimatedOTP
+      cardTitle="Two-Factor Authentication"
+      cardDescription="Enter the 6-digit code from your authenticator app."
+      delay={4000}
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="delay" type="number" default={3500}>
+  The delay in milliseconds before the animation restarts. Minimum value is 3500ms to ensure the complete animation sequence finishes.
+</ParamField>
+
+<ParamField path="cardTitle" type="string" default="Secure Access">
+  The title text displayed at the bottom of the card.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Protect accounts with a one-time password, auto-applied during every user login for enhanced security.">
+  The description text displayed below the title, providing context about the OTP functionality.
+</ParamField>
+
+## Animation sequence
+
+The component uses a carefully orchestrated animation sequence:
+
+1. **Digit reveal** (0-2.4s): Each digit fades in sequentially with a 400ms interval
+2. **Glow transition** (moving): A cyan glowing border moves from box to box using layoutId
+3. **Final pulse** (2.25s): All boxes pulse with a cyan glow simultaneously
+4. **Fade out** (2.65s): All digits fade out together
+5. **Loop restart**: Animation resets based on the delay prop
+
+## Examples
+
+<Tabs>
+  <Tab title="Default">
+    ```tsx
+    import AnimatedOTP from "@/components/forgeui/animated-otp";
+
+    export default function Demo() {
+      return <AnimatedOTP />;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Custom messaging">
+    ```tsx
+    import AnimatedOTP from "@/components/forgeui/animated-otp";
+
+    export default function Demo() {
+      return (
+        <AnimatedOTP
+          cardTitle="Verify Your Identity"
+          cardDescription="A unique code has been sent to your mobile device."
+        />
+      );
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Faster loop">
+    ```tsx
+    import AnimatedOTP from "@/components/forgeui/animated-otp";
+
+    export default function Demo() {
+      return (
+        <AnimatedOTP
+          delay={3500}
+          cardTitle="Quick Demo"
+          cardDescription="Fast-paced OTP animation for presentations."
+        />
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Customization
+
+### OTP digits
+
+Modify the digits displayed by updating the `digits` array at the top of the component file:
+
+```tsx
+const digits = ["4", "8", "3", "1", "9", "7"];
+```
+
+### Glow color
+
+Change the cyan glow effect to another color by updating the border and shadow colors:
+
+```tsx
+// In the motion.div for the glow effect
+className="border border-cyan-400"  // Change cyan-400 to your color
+style={{
+  boxShadow: "inset 0 0 12px rgba(34, 211, 238, 0.6)"  // Update RGBA values
+}}
+```
+
+### Animation timing
+
+Adjust the interval between digit reveals in the useEffect:
+
+```tsx
+const interval = setInterval(() => {
+  setActiveIndex((prev) => prev + 1);
+}, 400);  // Change 400 to your preferred delay in ms
+```
+
+### Box styling
+
+Customize the OTP input box appearance:
+
+```tsx
+className="h-10 w-8 rounded-md"  // Adjust dimensions
+className="bg-linear-to-br from-neutral-100 to-neutral-50"  // Change gradients
+```
+
+## Dependencies
+
+This component requires:
+- `motion/react` for animations and layout transitions
+- `react` hooks (useState, useEffect)
+
+<Note>
+  The component uses Motion's `layoutId` feature to create smooth transitions of the glowing border between input boxes.
+</Note>
+
+<Tip>
+  For production OTP inputs, consider building an interactive version that accepts real user input rather than using this animated demonstration.
+</Tip>
+
+<Warning>
+  The minimum delay is enforced at 3500ms. Setting a lower value will be automatically increased to 3500ms to prevent animation overlap.
+</Warning>

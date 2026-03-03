@@ -1,0 +1,343 @@
+---
+title: Social card
+description: An animated profile card showing name, avatar, and social links on hover.
+---
+
+## Overview
+
+The social card component displays a profile card with smooth hover animations that reveal social media links and additional information. It features:
+
+- Smooth avatar repositioning on hover
+- Slide-up panel with social links
+- Dashed border animation around avatar
+- Glass morphism backdrop effect
+- Customizable buttons with icons
+- Responsive hover interactions
+
+**Use cases:**
+- Team member profiles
+- Portfolio showcases
+- Social media link displays
+- Contact cards
+- Author bio sections
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/social-card
+```
+
+## Usage
+
+The social card requires an avatar image, user information, and an array of social media buttons.
+
+```tsx
+import SocialCard from "@/components/forgeui/social-card";
+import { Github, Twitter, Linkedin } from "lucide-react";
+
+export default function Example() {
+  return (
+    <SocialCard
+      image="/avatars/user.jpg"
+      title="Designer"
+      name="Jane Doe"
+      pitch="Creative designer passionate about building beautiful user experiences."
+      icon={<Sparkles className="h-5 w-5" />}
+      buttons={[
+        {
+          label: "GitHub",
+          icon: <Github className="h-5 w-5" />,
+          link: "https://github.com/username",
+        },
+        {
+          label: "Twitter",
+          icon: <Twitter className="h-5 w-5" />,
+          link: "https://twitter.com/username",
+        },
+        {
+          label: "LinkedIn",
+          icon: <Linkedin className="h-5 w-5" />,
+          link: "https://linkedin.com/in/username",
+        },
+      ]}
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="image" type="string" required>
+  URL or path to the avatar image.
+</ParamField>
+
+<ParamField path="title" type="string" required>
+  Title or role displayed at the top of the card.
+</ParamField>
+
+<ParamField path="name" type="string" required>
+  User's name displayed below the avatar.
+</ParamField>
+
+<ParamField path="pitch" type="string" required>
+  Short bio or description text shown in the expanded panel.
+</ParamField>
+
+<ParamField path="icon" type="React.ReactNode">
+  Optional icon displayed next to the title.
+</ParamField>
+
+<ParamField path="buttons" type="Array<{ label: string; icon?: React.ReactNode; link?: string }>">
+  Array of social media button objects. Each button can have a label, icon, and link.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Optional CSS class name for additional styling.
+</ParamField>
+
+## Examples
+
+### Developer profile
+
+```tsx
+import SocialCard from "@/components/forgeui/social-card";
+import { Code2, Github, Globe, Mail } from "lucide-react";
+
+export default function DeveloperCard() {
+  return (
+    <SocialCard
+      image="/avatars/dev.jpg"
+      title="Full Stack Developer"
+      name="Alex Morgan"
+      pitch="Building scalable web applications with modern technologies. Open source enthusiast and tech blogger."
+      icon={<Code2 className="h-5 w-5" />}
+      buttons={[
+        {
+          label: "GitHub",
+          icon: <Github className="h-5 w-5" />,
+          link: "https://github.com/alexmorgan",
+        },
+        {
+          label: "Portfolio",
+          icon: <Globe className="h-5 w-5" />,
+          link: "https://alexmorgan.dev",
+        },
+        {
+          label: "Email",
+          icon: <Mail className="h-5 w-5" />,
+          link: "mailto:alex@example.com",
+        },
+      ]}
+    />
+  );
+}
+```
+
+### Minimal card without icon
+
+```tsx
+import SocialCard from "@/components/forgeui/social-card";
+import { Twitter, Instagram } from "lucide-react";
+
+export default function MinimalCard() {
+  return (
+    <SocialCard
+      image="/avatars/user.jpg"
+      title="Content Creator"
+      name="Sam Taylor"
+      pitch="Sharing daily insights and creative content."
+      buttons={[
+        {
+          label: "Twitter",
+          icon: <Twitter className="h-5 w-5" />,
+          link: "https://twitter.com/samtaylor",
+        },
+        {
+          label: "Instagram",
+          icon: <Instagram className="h-5 w-5" />,
+          link: "https://instagram.com/samtaylor",
+        },
+      ]}
+    />
+  );
+}
+```
+
+### Team grid
+
+```tsx
+import SocialCard from "@/components/forgeui/social-card";
+import { Linkedin, Mail } from "lucide-react";
+
+const team = [
+  {
+    name: "Emma Wilson",
+    title: "Product Manager",
+    image: "/avatars/emma.jpg",
+    pitch: "Leading product strategy and user research.",
+    linkedin: "https://linkedin.com/in/emmawilson",
+  },
+  {
+    name: "Marcus Lee",
+    title: "Lead Designer",
+    image: "/avatars/marcus.jpg",
+    pitch: "Crafting intuitive and beautiful interfaces.",
+    linkedin: "https://linkedin.com/in/marcuslee",
+  },
+];
+
+export default function TeamGrid() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {team.map((member) => (
+        <SocialCard
+          key={member.name}
+          image={member.image}
+          title={member.title}
+          name={member.name}
+          pitch={member.pitch}
+          buttons={[
+            {
+              label: "LinkedIn",
+              icon: <Linkedin className="h-5 w-5" />,
+              link: member.linkedin,
+            },
+            {
+              label: "Email",
+              icon: <Mail className="h-5 w-5" />,
+              link: `mailto:${member.name.toLowerCase().replace(" ", ".")}@company.com`,
+            },
+          ]}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+### With custom styling
+
+```tsx
+import SocialCard from "@/components/forgeui/social-card";
+import { Palette, Dribbble, Behance } from "lucide-react";
+
+export default function CustomStyleCard() {
+  return (
+    <SocialCard
+      className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950"
+      image="/avatars/designer.jpg"
+      title="UI/UX Designer"
+      name="Sophie Chen"
+      pitch="Designing delightful experiences with a focus on accessibility and user research."
+      icon={<Palette className="h-5 w-5" />}
+      buttons={[
+        {
+          label: "Dribbble",
+          icon: <Dribbble className="h-5 w-5" />,
+          link: "https://dribbble.com/sophiechen",
+        },
+        {
+          label: "Behance",
+          icon: <Behance className="h-5 w-5" />,
+          link: "https://behance.net/sophiechen",
+        },
+      ]}
+    />
+  );
+}
+```
+
+## Customization
+
+### Card dimensions
+
+Adjust the card size:
+
+```tsx
+<motion.div className="h-[350px] w-[280px] md:w-[300px]">
+  {/* Change to: h-[400px] w-[320px] md:w-[340px] */}
+</motion.div>
+```
+
+### Avatar size
+
+Modify avatar dimensions in both collapsed and expanded states:
+
+```tsx
+{/* Collapsed state */}
+<img className="h-[130px] w-[130px] rounded-2xl" />
+{/* Change to: h-[150px] w-[150px] */}
+
+{/* Expanded state */}
+<img className="h-[72px] w-[72px] rounded-sm" />
+{/* Change to: h-[80px] w-[80px] */}
+```
+
+### Animation speed
+
+Customize the panel slide animation:
+
+```tsx
+<motion.div
+  animate={{
+    y: isHovered ? 0 : "calc(100% - 43px)",
+  }}
+  transition={{ 
+    duration: 0.3,  // Change to 0.5 for slower
+    ease: "easeInOut" 
+  }}
+>
+```
+
+### Dashed border animation
+
+Adjust the avatar border animation when hovered:
+
+```tsx
+<motion.div
+  initial={{ opacity: 0, scale: 1.6, filter: "blur(4px)" }}
+  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+  transition={{ 
+    delay: 0.35,  // Change delay
+    duration: 0.15,  // Change speed
+    ease: "circIn" 
+  }}
+/>
+```
+
+### Button styling
+
+Customize social link button appearance:
+
+```tsx
+<Link
+  className="flex items-center gap-3 rounded-xl border px-4 py-3"
+  // Change: rounded-lg for less rounded corners
+  // Change: px-6 py-4 for larger buttons
+  // Add: bg-blue-500 text-white for colored buttons
+>
+```
+
+### Hover scale effect
+
+Modify the card scale on hover:
+
+```tsx
+<motion.div
+  whileHover={{ scale: 1.02 }}  // Change to 1.05 for more zoom
+/>
+```
+
+### Layout transition
+
+The avatar uses Motion's `layoutId` for smooth transitions. Customize the animation:
+
+```tsx
+<motion.img
+  layoutId="card-image"
+  transition={{ 
+    duration: 0.3,  // Change speed
+    ease: "circIn"  // Change easing: "easeInOut", "anticipate", etc.
+  }}
+/>
+```

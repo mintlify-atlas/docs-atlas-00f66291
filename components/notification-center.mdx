@@ -1,0 +1,154 @@
+---
+title: Notification center
+description: Beautifully animated mobile UI showcasing notifications with hover-triggered transitions and customizable content blocks.
+---
+
+## Overview
+
+The notification center component creates an interactive mobile phone interface that displays notification alerts with smooth animations. When hovered or clicked, a notification slides down from the top of the phone screen with blur and scale effects, while a lock icon animates to indicate the unlock state.
+
+### Features
+
+- Animated mobile phone UI with realistic notification behavior
+- Hover and click-triggered notification animations
+- Customizable notification content (title, description, time)
+- Dynamic lock/unlock indicator with color transitions
+- Dark mode support with adaptive styling
+- Smooth motion animations using Framer Motion
+
+### Use cases
+
+- Product demos showcasing notification features
+- Mobile app previews and marketing pages
+- Interactive UI demonstrations
+- Real-time alert system showcases
+- Payment notification displays
+
+## Installation
+
+```bash
+npx shadcn add notification-center
+```
+
+## Usage
+
+```tsx
+import NotificationCenter from "@/components/forgeui/notification-center";
+
+export default function Demo() {
+  return (
+    <NotificationCenter
+      cardTitle="Real-time payment alerts"
+      cardDescription="Get instant updates for every successful Stripe transaction processed through your app."
+      notificationTitle="Stripe"
+      notificationDescription="You received a payment of $99.00 USD"
+      notificationTime="2h ago"
+    />
+  );
+}
+```
+
+### Imports
+
+The component uses the following dependencies:
+
+```tsx
+import { motion, Variants } from "motion/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+```
+
+Icon libraries used:
+
+```tsx
+import { AiFillSpotify } from "react-icons/ai";
+import { FaHeadphones, FaXTwitter } from "react-icons/fa6";
+import { FaPhoneAlt, FaPinterest, FaSnapchatGhost } from "react-icons/fa";
+import { MdMarkunread } from "react-icons/md";
+import { RiNetflixFill } from "react-icons/ri";
+```
+
+## Props
+
+<ParamField path="cardTitle" type="string" default="Real-time payment alerts">
+  The title text displayed at the bottom of the component card.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Get instant updates for every successful Stripe transaction processed through your app.">
+  The description text displayed below the card title.
+</ParamField>
+
+<ParamField path="notificationTitle" type="string" default="Stripe">
+  The title of the notification that appears on the phone screen.
+</ParamField>
+
+<ParamField path="notificationDescription" type="string" default="You received a payment of $99.00 USD">
+  The description text shown in the notification.
+</ParamField>
+
+<ParamField path="notificationTime" type="string" default="2h ago">
+  The timestamp displayed in the notification.
+</ParamField>
+
+## Examples
+
+### Payment notification
+
+```tsx
+<NotificationCenter
+  cardTitle="Real-time payment alerts"
+  cardDescription="Get instant updates for every successful Stripe transaction processed through your app."
+  notificationTitle="Stripe"
+  notificationDescription="You received a payment of $99.00 USD"
+  notificationTime="2h ago"
+/>
+```
+
+### Message notification
+
+```tsx
+<NotificationCenter
+  cardTitle="Instant messaging"
+  cardDescription="Never miss an important message with real-time notifications."
+  notificationTitle="Messages"
+  notificationDescription="You have 3 new messages"
+  notificationTime="5m ago"
+/>
+```
+
+### Order notification
+
+```tsx
+<NotificationCenter
+  cardTitle="Order updates"
+  cardDescription="Track your orders with live status updates."
+  notificationTitle="Orders"
+  notificationDescription="Your order has been shipped"
+  notificationTime="1h ago"
+/>
+```
+
+## Customization
+
+### Animation variants
+
+The component uses several motion variants that can be customized:
+
+- `phoneVariant`: Controls the phone screen translation on hover
+- `notificationVariant`: Manages notification slide and blur effects
+- `lockVariant`: Handles dark mode lock icon color changes
+- `lockLightVariant`: Handles light mode lock icon color changes
+- `parentvariant`: Controls stagger timing for child animations
+
+### Styling
+
+The component uses Tailwind CSS classes and supports dark mode automatically. Key styling areas include:
+
+- Phone container with rounded borders and gradient backgrounds
+- Notification card with backdrop blur and ring borders
+- Icon wrappers with gradient backgrounds
+- Gradient overlays at the bottom for text readability
+
+<Note>
+  The component displays a current time string that updates dynamically using `new Date().toLocaleTimeString()`.
+</Note>

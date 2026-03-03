@@ -1,0 +1,246 @@
+---
+title: Fraud card
+description: A security alert card inspired by Clerk's landing page, showcasing blocked emails with smooth hover animations.
+---
+
+## Overview
+
+The fraud card component displays security alerts for blocked email addresses with elegant hover animations. It features:
+
+- Animated email blocking notifications
+- Rotating loading indicator
+- Smooth staggered animations on hover
+- Real-time timestamp display
+- Visual timeline with SVG paths
+- Blur and opacity transitions
+
+**Use cases:**
+- Security dashboards
+- Fraud detection displays
+- Email filtering showcases
+- Authentication monitoring
+- Admin panels showing blocked activity
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/fraud-card
+```
+
+## Usage
+
+The fraud card requires an array of blocked email objects with email addresses and timestamps.
+
+```tsx
+import FraudCard from "@/components/forgeui/fraud-card";
+
+const blockedEmails = [
+  { email: "spam@tempmail.com", time: "2 min ago" },
+  { email: "fake@disposable.net", time: "5 min ago" },
+  { email: "bot@temporary.io", time: "12 min ago" },
+  { email: "test@throwaway.com", time: "18 min ago" },
+];
+
+export default function Example() {
+  return <FraudCard blockedEmails={blockedEmails} />;
+}
+```
+
+## Props
+
+<ParamField path="blockedEmails" type="BlockedEmail[]" required>
+  Array of blocked email objects to display. Each object must contain `email` and `time` properties.
+</ParamField>
+
+### BlockedEmail type
+
+```typescript
+type BlockedEmail = {
+  email: string;   // The blocked email address
+  time: string;    // Relative time when blocked (e.g., "5 min ago")
+};
+```
+
+## Examples
+
+### Basic fraud card
+
+```tsx
+import FraudCard from "@/components/forgeui/fraud-card";
+
+const blockedEmails = [
+  { email: "malicious@spam.com", time: "Just now" },
+  { email: "phishing@scam.net", time: "1 min ago" },
+  { email: "bot123@fake.org", time: "3 min ago" },
+];
+
+export default function SecurityDashboard() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <FraudCard blockedEmails={blockedEmails} />
+    </div>
+  );
+}
+```
+
+### Real-time updates
+
+You can dynamically update the blocked emails list:
+
+```tsx
+import { useState, useEffect } from "react";
+import FraudCard from "@/components/forgeui/fraud-card";
+
+export default function LiveFraudMonitor() {
+  const [blockedEmails, setBlockedEmails] = useState([
+    { email: "initial@spam.com", time: "1 min ago" },
+  ]);
+
+  useEffect(() => {
+    // Simulate new blocked email
+    const interval = setInterval(() => {
+      const newEmail = {
+        email: `blocked${Date.now()}@spam.com`,
+        time: "Just now",
+      };
+      setBlockedEmails((prev) => [newEmail, ...prev].slice(0, 4));
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <FraudCard blockedEmails={blockedEmails} />;
+}
+```
+
+### Multiple fraud cards
+
+```tsx
+import FraudCard from "@/components/forgeui/fraud-card";
+
+const regions = [
+  {
+    name: "US East",
+    blocked: [
+      { email: "spam1@test.com", time: "1 min ago" },
+      { email: "spam2@test.com", time: "3 min ago" },
+    ],
+  },
+  {
+    name: "EU West",
+    blocked: [
+      { email: "fraud1@fake.com", time: "2 min ago" },
+      { email: "fraud2@fake.com", time: "4 min ago" },
+    ],
+  },
+];
+
+export default function RegionalFraudView() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {regions.map((region) => (
+        <div key={region.name}>
+          <h3 className="mb-2 text-lg font-semibold">{region.name}</h3>
+          <FraudCard blockedEmails={region.blocked} />
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## Customization
+
+### Animation timing
+
+The component uses Motion variants for staggered animations. Customize the timing by modifying the variant objects:
+
+```tsx
+const parentvariant = {
+  open: {
+    transition: {
+      staggerChildren: 0.08,  // Time between each child animation
+      delayChildren: 0.15,    // Delay before starting
+    },
+  },
+  close: {
+    transition: {
+      staggerChildren: 0.075,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const emailvariant = {
+  open: {
+    opacity: 1,
+    filter: "blur(0px)",
+    y: 0,
+    transition: { duration: 0.3 },  // Adjust duration
+  },
+  close: {
+    opacity: 0,
+    filter: "blur(10px)",
+    y: 5,
+    transition: { duration: 0.3 },
+  },
+};
+```
+
+### Card dimensions
+
+Adjust the card size by modifying the height and width classes:
+
+```tsx
+<motion.div
+  className="h-[34rem] w-[350px] max-w-[350px]"
+  // Change to: h-[40rem] w-[400px] max-w-[400px]
+/>
+```
+
+### Rotation speed
+
+Customize the loading indicator rotation speed:
+
+```tsx
+const circlevariant = {
+  open: {
+    rotate: 360,
+    transition: {
+      ease: "linear",
+      duration: 2.5,  // Change rotation speed
+      repeat: Number.POSITIVE_INFINITY,
+    },
+  },
+};
+```
+
+### Color scheme
+
+The component uses the red-500 color for blocked indicators. You can customize this:
+
+```tsx
+// Change the cross icon background
+<motion.div className="bg-red-500">  // Change to bg-orange-500, bg-yellow-500, etc.
+  <RxCross2 />
+</motion.div>
+
+// Customize the SVG gradient
+<radialGradient id="clbeam-red-grad">
+  <stop offset="0%" stopColor="#ef4444" />  {/* Change color */}
+  <stop offset="100%" stopColor="transparent" />
+</radialGradient>
+```
+
+### Interaction behavior
+
+The card responds to both hover and click events. To make it click-only:
+
+```tsx
+<motion.div
+  onClick={() => setHovered((prev) => !prev)}
+  // Remove these lines for click-only:
+  // onHoverStart={() => setHovered(true)}
+  // onHoverEnd={() => setHovered(false)}
+/>
+```

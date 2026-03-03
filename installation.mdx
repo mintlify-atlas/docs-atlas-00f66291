@@ -1,0 +1,190 @@
+---
+title: Installation
+description: Install and configure ForgeUI in your React or Next.js project.
+---
+
+## Prerequisites
+
+Before installing ForgeUI, make sure you have:
+
+- Node.js 18.0 or later
+- A React 19.0+ or Next.js 15+ project
+- Basic familiarity with React and Tailwind CSS
+
+## Installation steps
+
+<Steps>
+  <Step title="Install core dependencies">
+    ForgeUI requires React, Framer Motion, and Tailwind CSS. Install them in your project:
+
+    <CodeGroup>
+    ```bash npm
+    npm install react@^19.0.0 react-dom@^19.0.0 framer-motion@^11.15.0
+    ```
+
+    ```bash yarn
+    yarn add react@^19.0.0 react-dom@^19.0.0 framer-motion@^11.15.0
+    ```
+
+    ```bash pnpm
+    pnpm add react@^19.0.0 react-dom@^19.0.0 framer-motion@^11.15.0
+    ```
+    </CodeGroup>
+
+    <Note>
+      ForgeUI uses the `motion` package from Framer Motion. Make sure you're using Framer Motion v11.15.0 or later.
+    </Note>
+  </Step>
+
+  <Step title="Install Tailwind CSS">
+    If you haven't already, install and configure Tailwind CSS:
+
+    <CodeGroup>
+    ```bash npm
+    npm install tailwindcss@^4.2.1 tailwindcss-animate@^1.0.7
+    ```
+
+    ```bash yarn
+    yarn add tailwindcss@^4.2.1 tailwindcss-animate@^1.0.7
+    ```
+
+    ```bash pnpm
+    pnpm add tailwindcss@^4.2.1 tailwindcss-animate@^1.0.7
+    ```
+    </CodeGroup>
+
+    Follow the [Tailwind CSS installation guide](https://tailwindcss.com/docs/installation) to complete the setup.
+  </Step>
+
+  <Step title="Install utility dependencies">
+    ForgeUI components use utility libraries for class name management:
+
+    <CodeGroup>
+    ```bash npm
+    npm install clsx@^2.1.1 tailwind-merge@^2.5.5 class-variance-authority@^0.7.1
+    ```
+
+    ```bash yarn
+    yarn add clsx@^2.1.1 tailwind-merge@^2.5.5 class-variance-authority@^0.7.1
+    ```
+
+    ```bash pnpm
+    pnpm add clsx@^2.1.1 tailwind-merge@^2.5.5 class-variance-authority@^0.7.1
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Create utility function">
+    Create a `lib/utils.ts` file in your project with the following content:
+
+    ```typescript lib/utils.ts
+    import { clsx, type ClassValue } from "clsx"
+    import { twMerge } from "tailwind-merge"
+
+    export function cn(...inputs: ClassValue[]) {
+      return twMerge(clsx(inputs))
+    }
+    ```
+
+    This utility function combines class names and resolves Tailwind CSS conflicts.
+  </Step>
+
+  <Step title="Configure Tailwind CSS">
+    Add `tailwindcss-animate` to your Tailwind configuration:
+
+    ```javascript tailwind.config.js
+    /** @type {import('tailwindcss').Config} */
+    module.exports = {
+      content: [
+        './pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './components/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/**/*.{js,ts,jsx,tsx,mdx}',
+      ],
+      theme: {
+        extend: {},
+      },
+      plugins: [require('tailwindcss-animate')],
+    }
+    ```
+  </Step>
+
+  <Step title="Install icon libraries (optional)">
+    Many ForgeUI components use icons. Install the icon libraries used in the components:
+
+    <CodeGroup>
+    ```bash npm
+    npm install lucide-react@^0.469.0 react-icons@^5.4.0 @tabler/icons-react@^3.28.1
+    ```
+
+    ```bash yarn
+    yarn add lucide-react@^0.469.0 react-icons@^5.4.0 @tabler/icons-react@^3.28.1
+    ```
+
+    ```bash pnpm
+    pnpm add lucide-react@^0.469.0 react-icons@^5.4.0 @tabler/icons-react@^3.28.1
+    ```
+    </CodeGroup>
+
+    <Tip>
+      You can choose to install only the icon libraries you need based on which components you plan to use.
+    </Tip>
+  </Step>
+
+  <Step title="Set up TypeScript (recommended)">
+    ForgeUI components are written in TypeScript. If you're using TypeScript, ensure your `tsconfig.json` includes:
+
+    ```json tsconfig.json
+    {
+      "compilerOptions": {
+        "target": "ES2020",
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "jsx": "preserve",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "paths": {
+          "@/*": ["./*"]
+        },
+        "strict": true
+      }
+    }
+    ```
+
+    The `@/*` path alias is commonly used in ForgeUI components to import utilities.
+  </Step>
+</Steps>
+
+## Verify installation
+
+To verify your installation is complete, try importing the dependencies in a test file:
+
+```typescript
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+
+console.log("ForgeUI dependencies installed successfully!")
+```
+
+If you don't see any errors, you're ready to start using ForgeUI components.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quick start" icon="bolt" href="/quickstart">
+    Build your first animated component
+  </Card>
+  <Card title="Browse components" icon="grid" href="/components/animated-form">
+    Explore all available components
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<Warning>
+  If you encounter module resolution errors, make sure the `@/*` path alias in your `tsconfig.json` points to the correct directory (usually the project root).
+</Warning>
+
+### Common issues
+
+- **Motion import errors**: Ensure you're using `motion/react` for imports in newer Framer Motion versions
+- **Tailwind classes not applying**: Verify your Tailwind configuration includes all content paths
+- **Type errors**: Make sure you have `@types/react` and `@types/react-dom` installed

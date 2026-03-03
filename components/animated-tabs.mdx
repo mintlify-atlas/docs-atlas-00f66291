@@ -1,0 +1,163 @@
+---
+title: Animated Tabs
+description: Switch tabs smoothly with motion-based underline or highlight effects.
+---
+
+## Overview
+
+Animated Tabs is a navigation component that provides smooth, fluid tab switching with motion-based animations. It offers two distinct visual variants: a default pill-style design with a sliding background highlight, and an underline variant with a moving bottom border.
+
+### Key features
+
+- Two animation variants (default and underline)
+- Smooth spring-based transitions using Motion
+- Automatic active state management
+- Accessible button-based implementation
+- Fully customizable styling with Tailwind CSS
+
+### When to use it
+
+- Navigation between different content sections
+- Settings panels with multiple categories
+- Dashboard views with segmented controls
+- Any interface requiring elegant tab switching
+
+## Installation
+
+```bash
+npx shadcn add animated-tabs
+```
+
+## Usage
+
+### Basic example
+
+```tsx
+import AnimatedTabs from "@/components/forgeui/animated-tabs";
+
+export default function Demo() {
+  return <AnimatedTabs tabs={["Home", "About", "Services", "Contact"]} />;
+}
+```
+
+### Underline variant
+
+```tsx
+import AnimatedTabs from "@/components/forgeui/animated-tabs";
+
+export default function Demo() {
+  return (
+    <AnimatedTabs
+      tabs={["Overview", "Analytics", "Reports", "Settings"]}
+      variant="underline"
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="tabs" type="Array<string>" required>
+  Array of tab labels to display. Each string becomes a selectable tab.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'underline'" default="default">
+  Visual style of the tabs:
+  - `default`: Pill-style tabs with sliding background highlight
+  - `underline`: Border-bottom tabs with moving underline indicator
+</ParamField>
+
+## Examples
+
+### Default variant with pill design
+
+The default variant renders tabs in a compact, pill-shaped container with a sliding background that follows the active tab.
+
+```tsx
+import AnimatedTabs from "@/components/forgeui/animated-tabs";
+
+export default function PillTabs() {
+  return (
+    <AnimatedTabs
+      tabs={["Dashboard", "Projects", "Team", "Settings"]}
+      variant="default"
+    />
+  );
+}
+```
+
+### Underline variant for navigation
+
+The underline variant works well for top-level navigation with a more traditional tab appearance.
+
+```tsx
+import AnimatedTabs from "@/components/forgeui/animated-tabs";
+
+export default function NavigationTabs() {
+  return (
+    <AnimatedTabs
+      tabs={["Products", "Solutions", "Resources", "Pricing", "Company"]}
+      variant="underline"
+    />
+  );
+}
+```
+
+### Short tab list
+
+```tsx
+import AnimatedTabs from "@/components/forgeui/animated-tabs";
+
+export default function ShortTabs() {
+  return <AnimatedTabs tabs={["Login", "Sign Up"]} />;
+}
+```
+
+## Customization
+
+### Animation timing
+
+The component uses spring-based animations with the following configuration:
+
+```tsx
+transition={{
+  type: "spring",
+  stiffness: 500,
+  damping: 30,
+}}
+```
+
+You can modify these values in the source file at `components/forgeui/animated-tabs.tsx:38-42` and `components/forgeui/animated-tabs.tsx:75-79` to adjust the animation feel.
+
+### Styling
+
+The component uses Tailwind CSS classes and CSS variables from your theme. Key customization points:
+
+- **Active tab colors**: Modify `text-primary` and `bg-primary` classes
+- **Inactive tab colors**: Adjust `text-muted-foreground` classes
+- **Container styling**: Update the wrapper div classes for different shapes or shadows
+- **Tab spacing**: Modify `px-4` (underline) or `px-3` (default) for horizontal padding
+
+### Layout ID
+
+<Note>
+  The `layoutId` prop in Motion enables shared layout animations. Each variant uses a unique ID (`active-tab-underline` or `active-tab-background`) to prevent conflicts when using multiple instances.
+</Note>
+
+## Component details
+
+### State management
+
+The component maintains internal state for the active tab, defaulting to the first tab in the array:
+
+```tsx
+const [activeTab, setActiveTab] = useState(tabs[0]);
+```
+
+### Motion layout animations
+
+Both variants use Motion's `layoutId` feature to create smooth transitions as the indicator moves between tabs. The `initial={false}` prop prevents animation on mount.
+
+<Tip>
+  The component automatically handles tab switching without requiring external state management, making it ideal for self-contained navigation sections.
+</Tip>

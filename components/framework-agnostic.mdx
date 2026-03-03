@@ -1,0 +1,88 @@
+---
+title: Framework agnostic
+description: Visually demonstrates cross-framework adaptability using animated stack icons and a glowing pipeline effect.
+---
+
+## Overview
+
+The framework agnostic component showcases cross-framework compatibility through an elegant animation of technology stack icons. It features React, Next.js, and HTML5 icons that lift up sequentially along a glowing blue pipeline, creating a visual representation of seamless integration across different frameworks.
+
+### Use cases
+
+- Product landing pages highlighting multi-framework support
+- Documentation introducing framework compatibility
+- Marketing materials showcasing platform flexibility
+- Developer onboarding experiences
+
+## Installation
+
+```bash
+npx shadcn add framework-agnostic
+```
+
+## Usage
+
+```tsx
+import FrameworkAgnostic from "@/components/forgeui/framework-agnostic";
+
+export default function Example() {
+  return (
+    <FrameworkAgnostic
+      cardTitle="Framework Agnostic"
+      cardDescription="Seamlessly integrate with any tech stack, whether it's Next.js, React, HTML, or anything else. Statsio works everywhere."
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="cardTitle" type="string" default="Framework Agnostic">
+  The title displayed at the bottom of the component.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Seamlessly integrate with any tech stack, whether it's Next.js, React, HTML, or anything else. Statsio works everywhere.">
+  The description text displayed below the title.
+</ParamField>
+
+## Examples
+
+### Default usage
+
+```tsx
+import FrameworkAgnostic from "@/components/forgeui/framework-agnostic";
+
+export default function DefaultExample() {
+  return <FrameworkAgnostic />;
+}
+```
+
+### Custom text
+
+```tsx
+import FrameworkAgnostic from "@/components/forgeui/framework-agnostic";
+
+export default function CustomTextExample() {
+  return (
+    <FrameworkAgnostic
+      cardTitle="Universal Compatibility"
+      cardDescription="Built to work seamlessly with your favorite frameworks and libraries. No matter your tech stack, we've got you covered."
+    />
+  );
+}
+```
+
+## Customization
+
+The component offers several customization opportunities:
+
+- **Animation timing**: Each icon lifts up for 1200ms, with 600ms delays between transitions and 1100ms transition duration
+- **Card styles**: Icons are displayed in gradient cards from `neutral-700` to `neutral-900` with responsive sizing
+- **Pipeline effect**: The glowing blue pipeline uses a radial gradient mask with animated circle movement
+- **Dimensions**: Fixed height of 20rem with responsive card sizes based on viewport width
+
+The animation sequence continuously cycles through React → Next.js → HTML5, creating an infinite loop that emphasizes multi-framework support.
+
+<Note>
+  The component uses 3D transforms with perspective effects to create depth when icons lift up. This requires browser support for CSS 3D transforms.
+</Note>

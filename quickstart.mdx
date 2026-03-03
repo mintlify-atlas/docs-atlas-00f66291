@@ -1,80 +1,203 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick start
+description: Get up and running with ForgeUI in minutes by creating your first animated text component.
 ---
 
-## Get started in three steps
+## Build your first component
 
-Get your documentation site running locally and make your first customization.
+This guide will walk you through creating your first ForgeUI component - an animated text shimmer effect that's perfect for headings, CTAs, or any text you want to draw attention to.
 
-### Step 1: Set up your local environment
+<Steps>
+  <Step title="Ensure dependencies are installed">
+    Make sure you've completed the [installation guide](/installation) and have all required dependencies installed:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    - React 19.0+
+    - Framer Motion 11.15.0+
+    - Tailwind CSS 4.2.1+
+    - Utility dependencies (clsx, tailwind-merge)
 
-### Step 2: Deploy your changes
+    <Tip>
+      If you haven't set up your project yet, go back to the [installation guide](/installation) first.
+    </Tip>
+  </Step>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+  <Step title="Create the TextShimmer component">
+    Create a new file `components/text-shimmer.tsx` and add the following code:
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+    ```typescript components/text-shimmer.tsx
+    "use client";
+    import React, { useMemo, type JSX } from "react";
+    import { motion } from "motion/react";
+    import { cn } from "@/lib/utils";
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+    export type TextShimmerProps = {
+      children: string;
+      as?: React.ElementType;
+      className?: string;
+      duration?: number;
+      spread?: number;
+      delay?: number;
+      repeatDelay?: number;
+    };
 
-### Step 3: Go live
+    const TextShimmer = ({
+      children,
+      as: Component = "p",
+      className,
+      duration = 2,
+      spread = 2,
+      delay = 0,
+      repeatDelay = 0,
+    }: TextShimmerProps) => {
+      const MotionComponent = motion.create(
+        Component as keyof JSX.IntrinsicElements,
+      );
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+      const dynamicSpread = useMemo(() => {
+        return children.length * spread;
+      }, [children, spread]);
+
+      return (
+        <MotionComponent
+          className={cn(
+            "relative inline-block bg-[length:250%_100%,auto] bg-clip-text",
+            "text-transparent [--base-color:#a1a1aa] [--base-gradient-color:#000]",
+            "[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]",
+            "dark:[--base-color:#71717a] dark:[--base-gradient-color:#ffffff] dark:[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))]",
+            className,
+          )}
+          initial={{ backgroundPosition: "105% center" }}
+          animate={{ backgroundPosition: "-5% center" }}
+          transition={{
+            repeat: Number.POSITIVE_INFINITY,
+            duration,
+            ease: "linear",
+            delay,
+            repeatDelay,
+          }}
+          style={
+            {
+              "--spread": `${dynamicSpread}px`,
+              backgroundImage: `var(--bg), linear-gradient(var(--base-color), var(--base-color))`,
+            } as React.CSSProperties
+          }
+        >
+          {children}
+        </MotionComponent>
+      );
+    };
+
+    export default React.memo(TextShimmer);
+    ```
+
+    This component creates a shimmer effect that animates across your text continuously.
+  </Step>
+
+  <Step title="Use the component in your app">
+    Now you can use the `TextShimmer` component anywhere in your application:
+
+    ```typescript app/page.tsx
+    import TextShimmer from "@/components/text-shimmer";
+
+    export default function Home() {
+      return (
+        <main className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <TextShimmer
+              as="h1"
+              className="text-5xl font-bold"
+              duration={2.5}
+            >
+              Welcome to ForgeUI
+            </TextShimmer>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">
+              Animation-first React components
+            </p>
+          </div>
+        </main>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Customize the animation">
+    The `TextShimmer` component accepts several props to customize the effect:
+
+    ```typescript
+    <TextShimmer
+      as="h1"              // HTML element to render (default: "p")
+      className="text-4xl" // Additional CSS classes
+      duration={3}         // Animation duration in seconds (default: 2)
+      spread={3}           // Shimmer spread width (default: 2)
+      delay={1}            // Delay before animation starts (default: 0)
+      repeatDelay={0.5}    // Delay between repeats (default: 0)
+    >
+      Your text here
+    </TextShimmer>
+    ```
+
+    <Note>
+      The shimmer automatically adjusts its width based on the text length and the `spread` prop.
+    </Note>
+  </Step>
+</Steps>
+
+## What you built
+
+You just created an animated text component with:
+
+- Smooth shimmer animation using Framer Motion
+- Dark mode support out of the box
+- Full TypeScript type safety
+- Customizable animation timing and appearance
+- Optimized performance with React.memo
+
+## Try more components
+
+Now that you've created your first ForgeUI component, try exploring other animated components:
+
+<CardGroup cols={2}>
+  <Card title="Text Reveal" icon="eye" href="/components/text-reveal">
+    Animated text that reveals word by word with a blur effect
+  </Card>
+  <Card title="Animated Form" icon="keyboard" href="/components/animated-form">
+    Multi-step form with smooth field animations
+  </Card>
+  <Card title="Animated Tabs" icon="layout" href="/components/animated-tabs">
+    Tab navigation with smooth transitions
+  </Card>
+  <Card title="Expandable Card" icon="expand" href="/components/expandable-card">
+    Card that expands with smooth animations
+  </Card>
+</CardGroup>
+
+## Component structure
+
+Most ForgeUI components follow this pattern:
+
+1. **"use client" directive** - Required for components using React hooks and Framer Motion
+2. **Type-safe props** - TypeScript interfaces for all component props
+3. **Framer Motion animations** - Using the `motion` API for smooth animations
+4. **Tailwind CSS styling** - Utility classes for styling with dark mode support
+5. **Customization options** - Props to control timing, appearance, and behavior
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
-
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Browse all components" icon="grid" href="/components/animated-form">
+    Explore the full collection of 19 animated components
+  </Card>
+  <Card title="Animation concepts" icon="code" href="/concepts/animations">
+    Learn about animation patterns and best practices
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+## Tips for success
+
+<Tip>
+  Start with simple text components like TextShimmer or TextReveal before moving to complex components like AnimatedForm or NotificationCenter.
+</Tip>
+
+<Warning>
+  Remember to add the `"use client"` directive at the top of files that use ForgeUI components in Next.js App Router.
+</Warning>

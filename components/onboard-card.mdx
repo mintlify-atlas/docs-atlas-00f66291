@@ -1,0 +1,255 @@
+---
+title: Onboard card
+description: Animated onboarding progress card showing three steps with visual loaders, transitions, and completion indicators.
+---
+
+## Overview
+
+The onboard card component displays a three-step onboarding progress animation with visual loaders and completion checkmarks. It features:
+
+- Automated progress bar animation
+- Three stacked progress steps
+- Smooth opacity transitions
+- Customizable step labels
+- Auto-looping animation
+- Loading and completion states
+
+**Use cases:**
+- Onboarding flows
+- Account creation progress
+- Multi-step process visualization
+- Setup wizards
+- Installation progress indicators
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/onboard-card
+```
+
+## Usage
+
+The onboard card is a self-contained animated component that loops through three onboarding steps.
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function Example() {
+  return <OnboardCard />;
+}
+```
+
+## Props
+
+<ParamField path="duration" type="number" default={3000}>
+  Duration in milliseconds for the progress bar animation. Minimum value is 3000ms.
+</ParamField>
+
+<ParamField path="step1" type="string" default="Welcome Aboard">
+  Label for the first (completed) step.
+</ParamField>
+
+<ParamField path="step2" type="string" default="Verifying Details">
+  Label for the second (in-progress) step.
+</ParamField>
+
+<ParamField path="step3" type="string" default="Account Created">
+  Label for the third (upcoming) step.
+</ParamField>
+
+## Examples
+
+### Basic onboard card
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function OnboardingDemo() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <OnboardCard />
+    </div>
+  );
+}
+```
+
+### Custom step labels
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function CustomOnboarding() {
+  return (
+    <OnboardCard
+      step1="Profile Created"
+      step2="Verifying Email"
+      step3="Setup Complete"
+    />
+  );
+}
+```
+
+### Faster animation
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function FastOnboarding() {
+  return (
+    <OnboardCard 
+      duration={5000}  // 5 seconds instead of default 3
+    />
+  );
+}
+```
+
+### Account setup flow
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function AccountSetup() {
+  return (
+    <div className="flex flex-col items-center gap-4 p-8">
+      <h2 className="text-2xl font-bold">Setting Up Your Account</h2>
+      <p className="text-muted-foreground">Please wait while we prepare everything...</p>
+      <OnboardCard
+        step1="Account Created"
+        step2="Configuring Workspace"
+        step3="Almost Ready"
+        duration={4000}
+      />
+    </div>
+  );
+}
+```
+
+### Installation progress
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function InstallProgress() {
+  return (
+    <div className="rounded-lg border bg-card p-6 shadow-lg">
+      <h3 className="mb-4 text-xl font-semibold">Installing Dependencies</h3>
+      <OnboardCard
+        step1="Dependencies Downloaded"
+        step2="Installing Packages"
+        step3="Build Complete"
+        duration={6000}
+      />
+    </div>
+  );
+}
+```
+
+### Data migration
+
+```tsx
+import OnboardCard from "@/components/forgeui/onboard-card";
+
+export default function MigrationProgress() {
+  return (
+    <OnboardCard
+      step1="Backup Created"
+      step2="Migrating Database"
+      step3="Migration Complete"
+      duration={8000}
+    />
+  );
+}
+```
+
+## Customization
+
+### Animation duration
+
+The `duration` prop controls how long the progress bar takes to complete. The component enforces a minimum of 3000ms for smooth animations:
+
+```tsx
+// Fast animation
+<OnboardCard duration={3000} />
+
+// Slower animation
+<OnboardCard duration={10000} />
+```
+
+### Progress bar color
+
+Customize the progress bar color by modifying the component:
+
+```tsx
+<motion.div
+  className="h-full bg-green-500"  // Change to bg-blue-500, bg-purple-500, etc.
+  initial={{ width: 0 }}
+  animate={{ width: `${progress}%` }}
+/>
+```
+
+### Card styling
+
+Adjust the card appearance:
+
+```tsx
+<div className="rounded-md border bg-gradient-to-br from-neutral-100 to-neutral-50">
+  {/* Change gradient colors */}
+  {/* from-blue-100 to-blue-50 */}
+  {/* from-purple-100 to-purple-50 */}
+</div>
+```
+
+### Loop timing
+
+The animation automatically resets after completion. Adjust the reset delay:
+
+```tsx
+const reset = setTimeout(() => {
+  setAnimateKey((k) => k + 1);
+}, duration + 2000);  // Change 2000 to adjust pause time
+```
+
+### Step opacity
+
+The completed and upcoming steps have reduced opacity. Modify this:
+
+```tsx
+// Completed step (bottom)
+<div className="opacity-80">  // Change to opacity-60, opacity-90, etc.
+
+// In-progress step (middle)
+<div className="">  // Full opacity by default
+
+// Upcoming step (top)
+<div className="opacity-80">  // Change to opacity-60, opacity-90, etc.
+```
+
+### Icon customization
+
+Replace the loader and checkmark icons:
+
+```tsx
+import { LuLoader } from "lucide-react";
+import { IoMdCheckmark } from "react-icons/io";
+
+// Use different icons from lucide-react or react-icons
+import { Loader2, CheckCircle2 } from "lucide-react";
+
+// Replace LuLoader with Loader2
+// Replace IoMdCheckmark with CheckCircle2
+```
+
+### Fade masks
+
+The component includes gradient masks at top and bottom. Adjust or remove them:
+
+```tsx
+{/* Top fade */}
+<div className="absolute top-0 h-[40%] w-full [background-image:linear-gradient(to_bottom,theme(colors.background)_20%,transparent_100%)]" />
+
+{/* Bottom fade */}
+<div className="absolute bottom-0 h-[40%] w-full [background-image:linear-gradient(to_top,theme(colors.background)_20%,transparent_100%)]" />
+
+{/* Adjust height: h-[30%] or h-[50%] */}
+{/* Adjust opacity: change the 20% value */}
+```

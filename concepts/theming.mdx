@@ -1,0 +1,380 @@
+---
+title: Theming
+description: Customize colors, themes, and dark mode support in ForgeUI
+---
+
+ForgeUI includes a comprehensive theming system built on CSS custom properties, Tailwind CSS, and next-themes for seamless dark mode support.
+
+## Dark mode support
+
+ForgeUI uses [next-themes](https://github.com/pacocoursey/next-themes) to provide automatic dark mode with system preference detection.
+
+### Theme provider setup
+
+The theme provider wraps your application in `provider/provider.tsx`:
+
+```tsx
+"use client";
+import React, { ReactNode } from "react";
+import { ThemeProvider } from "@/provider/theme-provider";
+
+const Provider = ({ children }: { children: ReactNode }) => {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
+  );
+};
+```
+
+**Key props:**
+- `attribute="class"` - Applies `.dark` class to root element
+- `defaultTheme="dark"` - Uses dark theme by default
+- `enableSystem` - Respects user's system preferences
+- `disableTransitionOnChange` - Prevents jarring transitions when switching themes
+
+### Theme provider implementation
+
+The theme provider is a thin wrapper around next-themes:
+
+```tsx
+"use client";
+import * as React from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
+```
+
+## CSS variables system
+
+ForgeUI uses CSS custom properties for all theme values, defined in `app/globals.css`.
+
+### Color tokens
+
+Colors are defined using the OKLCH color space for better perceptual uniformity:
+
+```css
+:root {
+  --background: oklch(1 0 0);           /* White */
+  --foreground: oklch(0.145 0 0);       /* Near black */
+  --primary: oklch(0.205 0 0);          /* Dark gray */
+  --primary-foreground: oklch(0.985 0 0); /* Near white */
+  --muted: oklch(0.97 0 0);             /* Light gray */
+  --muted-foreground: oklch(0.556 0 0); /* Medium gray */
+  --border: oklch(0.922 0 0);           /* Border gray */
+  --radius: 0.625rem;                   /* 10px */
+}
+```
+
+### Dark mode overrides
+
+Dark theme values automatically apply with the `.dark` class:
+
+```css
+.dark {
+  --background: oklch(0.145 0 0);       /* Near black */
+  --foreground: oklch(0.985 0 0);       /* Near white */
+  --primary: oklch(0.985 0 0);          /* Near white */
+  --primary-foreground: oklch(0.205 0 0); /* Dark gray */
+  --muted: oklch(0.269 0 0);            /* Dark gray */
+  --muted-foreground: oklch(0.708 0 0); /* Light gray */
+  --border: oklch(0.269 0 0);           /* Dark border */
+}
+```
+
+<Note>
+OKLCH provides better perceptual uniformity than RGB/HSL. Colors with the same lightness value appear equally bright to the human eye.
+</Note>
+
+### Complete color palette
+
+ForgeUI provides these semantic color tokens:
+
+<Tabs>
+  <Tab title="Layout">
+    - `--background` - Main background color
+    - `--foreground` - Main text color
+    - `--card` - Card background
+    - `--card-foreground` - Card text
+    - `--popover` - Popover background
+    - `--popover-foreground` - Popover text
+  </Tab>
+  <Tab title="Interactive">
+    - `--primary` - Primary actions/buttons
+    - `--primary-foreground` - Text on primary
+    - `--secondary` - Secondary actions
+    - `--secondary-foreground` - Text on secondary
+    - `--accent` - Accent elements
+    - `--accent-foreground` - Text on accent
+  </Tab>
+  <Tab title="States">
+    - `--muted` - Muted/disabled backgrounds
+    - `--muted-foreground` - Muted text
+    - `--destructive` - Error/danger color
+    - `--destructive-foreground` - Text on destructive
+  </Tab>
+  <Tab title="Borders">
+    - `--border` - Border color
+    - `--input` - Input border color
+    - `--ring` - Focus ring color
+  </Tab>
+  <Tab title="Radius">
+    - `--radius-sm` - Small radius (6px)
+    - `--radius-md` - Medium radius (8px)
+    - `--radius-lg` - Large radius (10px)
+    - `--radius-xl` - Extra large radius (14px)
+  </Tab>
+</Tabs>
+
+## Tailwind integration
+
+ForgeUI maps CSS variables to Tailwind utilities using the `@theme` directive:
+
+```css
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+```
+
+This allows you to use semantic color names in Tailwind classes:
+
+```tsx
+<div className="bg-background text-foreground border-border">
+  <button className="bg-primary text-primary-foreground rounded-lg">
+    Click me
+  </button>
+</div>
+```
+
+### Dark mode classes
+
+Use the `dark:` variant to apply styles in dark mode:
+
+```tsx
+<div className="bg-neutral-50 dark:bg-neutral-900">
+  <p className="text-neutral-900 dark:text-neutral-100">
+    Adapts to theme
+  </p>
+</div>
+```
+
+ForgeUI uses a custom variant definition:
+
+```css
+@custom-variant dark (&:is(.dark *));
+```
+
+This allows dark mode styles to apply when any parent has the `.dark` class.
+
+## Customizing colors
+
+### Update CSS variables
+
+Modify values in `app/globals.css` to customize the entire theme:
+
+```css
+:root {
+  /* Change primary color to blue */
+  --primary: oklch(0.5 0.2 250);
+  --primary-foreground: oklch(1 0 0);
+  
+  /* Increase border radius */
+  --radius: 1rem;
+}
+
+.dark {
+  /* Darker background in dark mode */
+  --background: oklch(0.1 0 0);
+}
+```
+
+<Tip>
+Use [OKLCH Color Picker](https://oklch.com/) to find OKLCH values for your desired colors. Maintain consistent lightness values across your palette for visual harmony.
+</Tip>
+
+### Component-specific theming
+
+Components use semantic tokens that automatically adapt:
+
+```tsx
+// From stats-card.tsx
+className="bg-gradient-to-br from-neutral-50 to-neutral-100 
+          dark:from-neutral-800 dark:to-neutral-900"
+```
+
+### Gradient theming
+
+Many components use gradients that adapt to the theme:
+
+```tsx
+// From animated-form.tsx
+className="bg-gradient-to-r from-neutral-700 to-neutral-300 
+          dark:from-neutral-400 dark:to-neutral-700"
+```
+
+## Scrollbar theming
+
+ForgeUI includes custom scrollbar styles that adapt to theme:
+
+```css
+:root {
+  --scrollbar: 0 0% 65%;
+  --scrollbar-hover: 0 0% 45%;
+}
+
+.dark {
+  --scrollbar: 0 0% 15%;
+  --scrollbar-hover: 0 0% 50%;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--scrollbar));
+  transition: background-color 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--scrollbar-hover));
+}
+```
+
+## Using the theme in components
+
+### Access theme programmatically
+
+Import `useTheme` from next-themes:
+
+```tsx
+import { useTheme } from "next-themes";
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  
+  return (
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      Toggle theme
+    </button>
+  );
+}
+```
+
+### Dynamic color values
+
+Access CSS variables in JavaScript:
+
+```tsx
+// From stats-card.tsx
+const Graph = ({ gradientColor }: { gradientColor: string }) => (
+  <svg>
+    <defs>
+      <radialGradient id="graph-blue-grad" fx="1">
+        <stop offset="0%" stopColor={gradientColor} />
+        <stop offset="20%" stopColor={gradientColor} stopOpacity="0.8" />
+        <stop offset="100%" stopColor="transparent" />
+      </radialGradient>
+    </defs>
+  </svg>
+);
+```
+
+### Theme-aware animations
+
+Some components adapt animations based on theme:
+
+```tsx
+// From text-shimmer.tsx
+className="[--base-color:#a1a1aa] [--base-gradient-color:#000]
+          dark:[--base-color:#71717a] dark:[--base-gradient-color:#ffffff]"
+```
+
+## shadcn/ui configuration
+
+ForgeUI is built on shadcn/ui. The configuration in `components.json` controls theming:
+
+```json
+{
+  "style": "new-york",
+  "tailwind": {
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  }
+}
+```
+
+- `baseColor: "neutral"` - Uses neutral gray scale
+- `cssVariables: true` - Uses CSS variables for theming
+- `prefix: ""` - No prefix on utility classes
+
+## Best practices
+
+<Accordion title="Use semantic tokens">
+  Always use semantic tokens like `bg-background` instead of hardcoded colors like `bg-white`. This ensures your components adapt to theme changes.
+  
+  ```tsx
+  // Good
+  <div className="bg-background text-foreground" />
+  
+  // Avoid
+  <div className="bg-white text-black" />
+  ```
+</Accordion>
+
+<Accordion title="Test both themes">
+  Always test your components in both light and dark modes. Colors that work well in one theme may have poor contrast in another.
+</Accordion>
+
+<Accordion title="Consistent contrast ratios">
+  Maintain WCAG AA contrast ratios (4.5:1 for normal text, 3:1 for large text) in both themes. OKLCH makes this easier by maintaining perceptual brightness.
+</Accordion>
+
+<Accordion title="Avoid pure black/white">
+  ForgeUI uses near-black (`oklch(0.145 0 0)`) and near-white (`oklch(0.985 0 0)`) instead of pure values. This reduces eye strain and looks more refined.
+</Accordion>
+
+## Creating custom themes
+
+To create a custom theme, define a new class with color overrides:
+
+```css
+.theme-ocean {
+  --background: oklch(0.95 0.02 220);
+  --foreground: oklch(0.2 0.05 220);
+  --primary: oklch(0.5 0.15 220);
+  --primary-foreground: oklch(0.98 0.02 220);
+  --border: oklch(0.85 0.02 220);
+}
+```
+
+Apply it via the theme provider:
+
+```tsx
+<ThemeProvider
+  attribute="class"
+  defaultTheme="ocean"
+  themes={['light', 'dark', 'ocean']}
+>
+```
+
+<Warning>
+Custom themes require updating all semantic color tokens. Missing variables will fall back to the default theme values.
+</Warning>

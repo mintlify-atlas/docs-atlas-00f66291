@@ -1,0 +1,171 @@
+---
+title: Notification panel
+description: A collapsible notification panel displaying recent alerts with icons, timestamps, and smooth animated transitions.
+---
+
+## Overview
+
+The notification panel component provides a mobile-style notification interface with hover-triggered animations. It features a phone mockup with app icons and a sliding notification banner that appears with smooth scale and blur transitions when the user interacts with the component.
+
+### Features
+
+- Realistic mobile phone interface with app icons
+- Smooth notification slide-in animation
+- Hover and click interaction support
+- Animated lock icon with state-based color changes
+- Customizable notification content
+- Dark mode compatible
+- Gradient overlay for improved text contrast
+
+### Use cases
+
+- Mobile app previews
+- Notification system demonstrations
+- Product landing pages
+- Interactive UI showcases
+- Payment alert displays
+- Marketing materials
+
+## Installation
+
+```bash
+npx shadcn add notification-panel
+```
+
+## Usage
+
+```tsx
+import NotificationCenter from "@/components/forgeui/notification-panel";
+
+export default function Demo() {
+  return (
+    <NotificationCenter
+      cardTitle="Real-time payment alerts"
+      cardDescription="Get instant updates for every successful Stripe transaction processed through your app."
+      notificationTitle="Stripe"
+      notificationDescription="You received a payment of $99.00"
+      notificationTime="2h ago"
+    />
+  );
+}
+```
+
+### Imports
+
+The component requires the following imports:
+
+```tsx
+import { motion, Variants } from "motion/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+```
+
+Icon dependencies:
+
+```tsx
+import { AiFillSpotify } from "react-icons/ai";
+import { FaHeadphones, FaXTwitter } from "react-icons/fa6";
+import { FaPhoneAlt, FaPinterest, FaSnapchatGhost } from "react-icons/fa";
+import { MdMarkunread } from "react-icons/md";
+import { RiNetflixFill } from "react-icons/ri";
+```
+
+## Props
+
+<ParamField path="cardTitle" type="string" default="Real-time payment alerts">
+  The main title displayed at the bottom of the component.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Get instant updates for every successful Stripe transaction processed through your app.">
+  The description text shown below the card title.
+</ParamField>
+
+<ParamField path="notificationTitle" type="string" default="Stripe">
+  The title text displayed in the notification banner.
+</ParamField>
+
+<ParamField path="notificationDescription" type="string" default="You received a payment of $99.00">
+  The notification message content.
+</ParamField>
+
+<ParamField path="notificationTime" type="string" default="2h ago">
+  The timestamp shown in the notification.
+</ParamField>
+
+## Examples
+
+### Payment notification
+
+```tsx
+<NotificationCenter
+  cardTitle="Real-time payment alerts"
+  cardDescription="Get instant updates for every successful Stripe transaction processed through your app."
+  notificationTitle="Stripe"
+  notificationDescription="You received a payment of $99.00"
+  notificationTime="2h ago"
+/>
+```
+
+### Social notification
+
+```tsx
+<NotificationCenter
+  cardTitle="Social updates"
+  cardDescription="Stay connected with real-time social notifications."
+  notificationTitle="Twitter"
+  notificationDescription="You have 5 new mentions"
+  notificationTime="15m ago"
+/>
+```
+
+### System alert
+
+```tsx
+<NotificationCenter
+  cardTitle="System notifications"
+  cardDescription="Important alerts and updates from your system."
+  notificationTitle="Security"
+  notificationDescription="New login detected from Chrome"
+  notificationTime="Just now"
+/>
+```
+
+## Customization
+
+### Animation variants
+
+The component includes several customizable animation variants:
+
+- `phoneVariant`: Controls phone screen movement on interaction
+- `notificationVariant`: Manages notification appearance with scale and blur
+- `lockVariant`: Handles dark mode lock icon color transitions
+- `lockLightVariant`: Manages light mode lock icon styling
+- `parentvariant`: Controls animation stagger timing
+
+### Styling options
+
+Customize the appearance using Tailwind CSS classes:
+
+- Phone container with rounded borders and neutral backgrounds
+- Notification banner with backdrop blur and ring borders
+- App icon wrappers with gradient effects
+- Bottom gradient overlay for text visibility
+- Responsive sizing with max-width constraints
+
+<Note>
+  The component automatically displays the current time in 24-hour format at the top of the phone screen.
+</Note>
+
+### IconWrapper component
+
+The internal `IconWrapper` component creates app icon containers:
+
+```tsx
+const IconWrapper = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-neutral-300 to-neutral-200 dark:from-neutral-700 dark:to-neutral-900">
+      {children}
+    </div>
+  );
+};
+```

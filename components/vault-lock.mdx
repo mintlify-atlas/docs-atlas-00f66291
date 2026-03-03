@@ -1,0 +1,246 @@
+---
+title: Vault Lock
+description: Animated vault showcasing secure password input with motion effects and interactive hover-based unlock behavior.
+---
+
+## Overview
+
+The Vault Lock component creates a sophisticated vault door animation with rotating lock mechanism and secure password reveal. On hover, the vault opens with coordinated animations including a rotating lock dial, rising vault door, and revealing password dots.
+
+Key features:
+- Interactive hover-triggered animations
+- Coordinated multi-element motion (vault door, lock, input field)
+- Rotating lock dial with radial gradient texture
+- Animated shine effect across the lock
+- Sequential password character reveal
+- Cyan glow effects on active state
+- Custom clipped polygon shapes for vault door
+- Dark theme optimized design
+
+Use this component when you want to:
+- Demonstrate secure authentication systems
+- Create engaging security feature showcases
+- Add visual interest to password management UIs
+- Illustrate vault or secure storage concepts
+
+## Installation
+
+```bash
+npx shadcn add vault-lock
+```
+
+## Usage
+
+```tsx
+import VaultLock from "@/components/forgeui/vault-lock";
+
+export default function Demo() {
+  return <VaultLock />;
+}
+```
+
+### With custom props
+
+```tsx
+import VaultLock from "@/components/forgeui/vault-lock";
+
+export default function Demo() {
+  return (
+    <VaultLock
+      cardTitle="Secure Storage"
+      cardDescription="Military-grade encryption protects your sensitive data with multi-layer security protocols."
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="cardTitle" type="string" default="Vault Access">
+  The title text displayed at the bottom of the card.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Smooth and secure login experience, backed by encrypted access and seamless visual transitions">
+  The description text displayed below the title, providing context about the vault security.
+</ParamField>
+
+## Animation variants
+
+The component uses Motion variants to coordinate multiple animation states:
+
+### Vault variant
+Controls the vertical movement of the vault door and lock:
+```tsx
+open: { transform: "translateY(-20px)" }
+close: { transform: "translateY(0px)" }
+```
+
+### Input variant
+Controls the password input field movement:
+```tsx
+open: { transform: "translateY(-12px)" }
+close: { transform: "translateY(0px)" }
+```
+
+### Lock variant
+Rotates the lock dial 90 degrees:
+```tsx
+open: { transform: "rotate(90deg)", delay: 2 }
+close: { transform: "rotate(0deg)" }
+```
+
+### Shine variant
+Animates a shine effect across the lock:
+```tsx
+open: { 
+  transform: "translateX(-50%) translateY(0%) rotate(45deg)",
+  scale: 1.2,
+  delay: 2.1
+}
+```
+
+### Code variant
+Sequentially reveals password characters:
+```tsx
+open: (index: number) => ({
+  opacity: 1,
+  filter: "blur(0px)",
+  delay: 0.3 + index * 0.15
+})
+```
+
+## Examples
+
+<Tabs>
+  <Tab title="Default">
+    ```tsx
+    import VaultLock from "@/components/forgeui/vault-lock";
+
+    export default function Demo() {
+      return <VaultLock />;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Custom messaging">
+    ```tsx
+    import VaultLock from "@/components/forgeui/vault-lock";
+
+    export default function Demo() {
+      return (
+        <VaultLock
+          cardTitle="Password Manager"
+          cardDescription="Access your encrypted password vault with biometric authentication and zero-knowledge architecture."
+        />
+      );
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Security demo">
+    ```tsx
+    import VaultLock from "@/components/forgeui/vault-lock";
+
+    export default function Demo() {
+      return (
+        <div className="p-8">
+          <VaultLock
+            cardTitle="Enterprise Security"
+            cardDescription="Bank-level encryption and secure access protocols."
+          />
+        </div>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Customization
+
+### Animation timing
+
+Adjust the duration and easing of animations by modifying the variant transitions:
+
+```tsx
+const vaultVariant: Variants = {
+  open: {
+    transform: "translateY(-20px)",
+    transition: {
+      duration: 0.3,  // Adjust duration
+      ease: "easeInOut",  // Change easing function
+    },
+  },
+};
+```
+
+### Lock rotation
+
+Change the lock rotation angle in the lockVariant:
+
+```tsx
+const lockVariant: Variants = {
+  open: {
+    transform: "rotate(90deg)",  // Change to 180deg for full rotation
+    transition: {
+      delay: 2,  // Adjust when rotation starts
+    },
+  },
+};
+```
+
+### Glow color
+
+Modify the cyan glow effect to match your brand:
+
+```tsx
+className="group-hover:border-cyan-500 group-hover:[box-shadow:inset_0_0_5px_#06b6d4]"
+// Change cyan-500 and #06b6d4 to your preferred color
+```
+
+### Password characters
+
+Change the password display:
+
+```tsx
+{"••••••••••".split("").map((char, index) => (
+  // Modify the number of dots or use different characters
+))}
+```
+
+### Vault door shape
+
+The vault door uses a custom clip-path for cut corners:
+
+```tsx
+style={{
+  clipPath: "polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% 100%, 0% 100%, 0% 30px)"
+}}
+// Adjust the 30px values to change corner size
+```
+
+### Lock texture
+
+Customize the radial gradient pattern on the lock:
+
+```tsx
+className="bg-[repeating-radial-gradient(rgba(60,60,60,0.6)_0.15rem,rgba(40,40,40,0.5)_0.32rem)]"
+// Modify colors and sizes for different textures
+```
+
+## Dependencies
+
+This component requires:
+- `motion/react` for animations and variants
+- `react` hooks (useState)
+
+<Note>
+  The component uses hover state to trigger all animations. The lock rotation is deliberately delayed (2s) to create a sequential unlocking effect.
+</Note>
+
+<Tip>
+  The shine effect uses a delayed animation (2.1s) to occur just after the lock rotation, creating a satisfying "click" moment when the vault unlocks.
+</Tip>
+
+<Warning>
+  This component is designed for dark backgrounds. The vault door styling uses neutral-800/900 colors that may not be visible on light backgrounds.
+</Warning>

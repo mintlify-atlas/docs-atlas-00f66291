@@ -1,0 +1,166 @@
+---
+title: Animated Form
+description: Animated form mimicking account creation with progressive name/password animation and completion checkmarks.
+---
+
+## Overview
+
+The Animated Form component creates an engaging account creation experience with progressive text animations and visual completion indicators. As users type their name and password, each character animates in sequentially, followed by animated checkmark circles that indicate field completion.
+
+Key features:
+- Progressive character-by-character text animation
+- Animated checkmark circles with stroke and fill effects
+- Automatic looping animation for demonstration purposes
+- Customizable user name and animation delay
+- Social media icons display at the bottom
+- Responsive gradient styling with dark mode support
+
+Use this component when you want to:
+- Showcase authentication flows in demos or marketing materials
+- Create engaging onboarding experiences
+- Demonstrate form validation states
+- Add visual interest to account creation processes
+
+## Installation
+
+```bash
+npx shadcn add animated-form
+```
+
+## Usage
+
+```tsx
+import AnimatedForm from "@/components/forgeui/animated-form";
+
+export default function Demo() {
+  return <AnimatedForm />;
+}
+```
+
+### With custom props
+
+```tsx
+import AnimatedForm from "@/components/forgeui/animated-form";
+
+export default function Demo() {
+  return (
+    <AnimatedForm 
+      name="Jordan Smith" 
+      delay={8000} 
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="delay" type="number" default={7000}>
+  The delay in milliseconds before the animation restarts. Minimum value is 7000ms to ensure the complete animation sequence finishes.
+</ParamField>
+
+<ParamField path="name" type="string" default="Alex Morgan">
+  The name to display in the animated form field. Each character will animate in sequentially.
+</ParamField>
+
+## Component structure
+
+The component includes several sub-components:
+
+### AnimatedCheckmarkCircle
+
+An internal component that renders the animated checkmark with circle stroke and fill effects.
+
+```tsx
+type AnimatedCheckmarkCircleProps = {
+  circleLength: number;
+  strokeDuration: number;
+  strokeDelay: number;
+  fillDelay: number;
+  checkmarkDelay: number;
+};
+```
+
+## Examples
+
+<Tabs>
+  <Tab title="Default">
+    ```tsx
+    import AnimatedForm from "@/components/forgeui/animated-form";
+
+    export default function Demo() {
+      return <AnimatedForm />;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Custom name">
+    ```tsx
+    import AnimatedForm from "@/components/forgeui/animated-form";
+
+    export default function Demo() {
+      return <AnimatedForm name="Sarah Johnson" />;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Slower animation">
+    ```tsx
+    import AnimatedForm from "@/components/forgeui/animated-form";
+
+    export default function Demo() {
+      return (
+        <AnimatedForm 
+          name="Alex Morgan" 
+          delay={10000} 
+        />
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Customization
+
+### Animation timing
+
+The animation timing is calculated based on the name length:
+- Name animation duration: `Math.ceil(name.length / 5)` seconds
+- Password animation duration: 2 seconds
+- Character stagger delay is evenly distributed across the duration
+
+### Styling
+
+The component uses gradient backgrounds and borders that respond to dark mode:
+
+```tsx
+// Gradient text for title
+className="bg-gradient-to-r from-neutral-700 to-neutral-300 bg-clip-text dark:from-neutral-400 dark:to-neutral-700"
+
+// Input field gradients
+className="bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-950"
+```
+
+### Checkmark color
+
+Modify the checkmark color by updating the stroke and fill colors in the AnimatedCheckmarkCircle component:
+
+```tsx
+stroke="#22c55e"  // Change to your preferred color
+fill="#22c55e"    // Match the stroke color
+```
+
+## Dependencies
+
+This component requires:
+- `motion/react` for animations
+- `react-icons/io` for the checkmark icon
+- `react-icons/fa6` for the GitHub icon
+- Custom SVG icons for Shopify, Twitch, and YouTube
+
+<Note>
+  The component automatically loops the animation based on the delay prop. The minimum delay of 7000ms ensures all animations complete before restarting.
+</Note>
+
+<Tip>
+  Use this component in demo environments or marketing pages. For production forms, consider making it interactive rather than looping.
+</Tip>

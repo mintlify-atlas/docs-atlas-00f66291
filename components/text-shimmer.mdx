@@ -1,0 +1,241 @@
+---
+title: Text Shimmer
+description: A React component that creates an animated text shimmer effect using Motion, customizable by tag, duration, spread, delay, and repeat delay.
+---
+
+## Overview
+
+The Text Shimmer component creates a smooth, continuous shimmer effect that glides across text using an animated gradient. The effect uses CSS gradients and motion animations to create a polished, eye-catching highlight that loops indefinitely.
+
+**Use cases:**
+- Highlighting premium features or calls-to-action
+- Drawing attention to special offers or announcements
+- Adding polish to headings and hero sections
+- Creating visual interest in static text content
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/text-shimmer.json
+```
+
+## Usage
+
+```tsx
+import TextShimmer from "@/components/forgeui/text-shimmer";
+
+export default function Example() {
+  return (
+    <TextShimmer className="text-4xl font-bold">
+      Premium features unlocked
+    </TextShimmer>
+  );
+}
+```
+
+### Imports
+
+```tsx
+import TextShimmer from "@/components/forgeui/text-shimmer";
+```
+
+## Props
+
+<ParamField path="children" type="string" required>
+  The text content to apply the shimmer effect to. Must be a string value.
+</ParamField>
+
+<ParamField path="as" type="React.ElementType" default='"p"'>
+  The HTML element to render as. Can be any valid HTML tag like `"h1"`, `"span"`, `"div"`, etc.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the component. Use this for typography, sizing, and other styles.
+</ParamField>
+
+<ParamField path="duration" type="number" default="2">
+  Duration in seconds for one complete shimmer animation cycle. Lower values create faster shimmer movement.
+</ParamField>
+
+<ParamField path="spread" type="number" default="2">
+  Spread multiplier for the shimmer gradient width. The actual spread is calculated as `children.length * spread` pixels. Higher values create a wider shimmer beam.
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  Delay in seconds before the animation starts. Useful for sequencing multiple shimmer effects.
+</ParamField>
+
+<ParamField path="repeatDelay" type="number" default="0">
+  Delay in seconds between each animation loop. Creates pauses between shimmer passes.
+</ParamField>
+
+## Examples
+
+### Basic shimmer
+
+```tsx
+<TextShimmer>
+  Shimmering text effect
+</TextShimmer>
+```
+
+### Hero heading
+
+```tsx
+<TextShimmer 
+  as="h1" 
+  className="text-6xl font-black tracking-tight"
+>
+  Build the future
+</TextShimmer>
+```
+
+### Fast shimmer
+
+```tsx
+<TextShimmer 
+  duration={1}
+  className="text-2xl font-semibold"
+>
+  Lightning fast performance
+</TextShimmer>
+```
+
+### Slow elegant shimmer
+
+```tsx
+<TextShimmer 
+  duration={4}
+  spread={3}
+  className="text-5xl font-light"
+>
+  Elegance in motion
+</TextShimmer>
+```
+
+### With pause between loops
+
+```tsx
+<TextShimmer 
+  duration={2}
+  repeatDelay={1}
+  className="text-3xl font-bold"
+>
+  Premium feature unlocked
+</TextShimmer>
+```
+
+### Delayed start
+
+```tsx
+<div className="space-y-4">
+  <TextShimmer delay={0}>First</TextShimmer>
+  <TextShimmer delay={0.5}>Second</TextShimmer>
+  <TextShimmer delay={1}>Third</TextShimmer>
+</div>
+```
+
+### Call to action
+
+```tsx
+<button className="rounded-lg bg-black px-8 py-4 dark:bg-white">
+  <TextShimmer 
+    as="span"
+    className="text-lg font-semibold text-white dark:text-black"
+    duration={1.5}
+  >
+    Get Started Today
+  </TextShimmer>
+</button>
+```
+
+### Badge with shimmer
+
+```tsx
+<div className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
+  <span className="h-2 w-2 rounded-full bg-green-500" />
+  <TextShimmer 
+    as="span"
+    className="text-sm font-medium"
+    duration={3}
+  >
+    New release available
+  </TextShimmer>
+</div>
+```
+
+## Customization
+
+### Animation timing
+
+Control the speed and rhythm of the shimmer:
+
+```tsx
+// Quick shimmer (1 second)
+<TextShimmer duration={1} />
+
+// Standard shimmer (2 seconds, default)
+<TextShimmer duration={2} />
+
+// Slow shimmer (4 seconds)
+<TextShimmer duration={4} />
+
+// With pauses between loops
+<TextShimmer duration={2} repeatDelay={1.5} />
+```
+
+### Shimmer width
+
+The `spread` prop controls the width of the shimmer gradient:
+
+```tsx
+// Narrow beam
+<TextShimmer spread={1} />
+
+// Standard beam (default)
+<TextShimmer spread={2} />
+
+// Wide beam
+<TextShimmer spread={4} />
+```
+
+<Tip>
+  The actual gradient spread is calculated as `children.length * spread` pixels, so longer text will have proportionally wider shimmer beams.
+</Tip>
+
+### Color customization
+
+The shimmer uses CSS custom properties that adapt to light/dark mode:
+
+- Light mode: Black shimmer (`#000`) over gray base (`#a1a1aa`)
+- Dark mode: White shimmer (`#ffffff`) over gray base (`#71717a`)
+
+To customize colors, override the CSS variables:
+
+```css
+.custom-shimmer {
+  --base-color: #3b82f6; /* Blue base */
+  --base-gradient-color: #60a5fa; /* Lighter blue shimmer */
+}
+```
+
+```tsx
+<TextShimmer className="custom-shimmer">
+  Custom colored shimmer
+</TextShimmer>
+```
+
+### Semantic HTML
+
+Use the `as` prop to render the appropriate semantic element:
+
+```tsx
+<TextShimmer as="h1">Page Title</TextShimmer>
+<TextShimmer as="h2">Section Heading</TextShimmer>
+<TextShimmer as="span">Inline text</TextShimmer>
+<TextShimmer as="div">Block element</TextShimmer>
+```
+
+<Note>
+  The component is memoized with `React.memo` for optimal performance, preventing unnecessary re-renders when parent components update.
+</Note>

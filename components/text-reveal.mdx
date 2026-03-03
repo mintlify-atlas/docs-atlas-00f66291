@@ -1,0 +1,159 @@
+---
+title: Text Reveal
+description: A stylish effect that sequentially fades in text on page load, creating a dynamic reveal.
+---
+
+## Overview
+
+The Text Reveal component creates an elegant sequential fade-in animation for text, splitting content by words and revealing them one by one with a staggered delay. Each word fades in from a blurred state to sharp focus, creating a polished, dynamic entrance effect.
+
+**Use cases:**
+- Hero section headings and taglines
+- Landing page main content reveals
+- Section introductions that need visual impact
+- Drawing attention to important messaging
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/text-reveal.json
+```
+
+## Usage
+
+```tsx
+import TextReveal from "@/components/forgeui/text-reveal";
+
+export default function Example() {
+  return (
+    <TextReveal 
+      text="Welcome to the future of web design"
+      className="text-4xl font-bold"
+    />
+  );
+}
+```
+
+### Imports
+
+```tsx
+import TextReveal from "@/components/forgeui/text-reveal";
+```
+
+## Props
+
+<ParamField path="text" type="string" required>
+  The text content to reveal. The component splits this by spaces to animate each word individually.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the wrapper div. Use this to control typography, colors, and layout.
+</ParamField>
+
+<ParamField path="filter" type="boolean" default="true">
+  Whether to apply blur filter during the reveal animation. When `true`, words transition from blurred to sharp. Set to `false` for a simple opacity fade.
+</ParamField>
+
+<ParamField path="duration" type="number" default="0.5">
+  Duration in seconds for each word's reveal animation. Controls how fast each word animates from hidden to visible.
+</ParamField>
+
+<ParamField path="staggerDelay" type="number" default="0.2">
+  Delay in seconds between each word's animation start. Higher values create more spacing between word reveals.
+</ParamField>
+
+## Examples
+
+### Basic reveal
+
+```tsx
+<TextReveal 
+  text="Beautiful animations made simple"
+/>
+```
+
+### Without blur effect
+
+```tsx
+<TextReveal 
+  text="Clean fade without blur"
+  filter={false}
+/>
+```
+
+### Fast sequential reveal
+
+```tsx
+<TextReveal 
+  text="Quick rapid fire text animation"
+  duration={0.3}
+  staggerDelay={0.1}
+/>
+```
+
+### Slow dramatic reveal
+
+```tsx
+<TextReveal 
+  text="Dramatic and deliberate text entrance"
+  duration={1}
+  staggerDelay={0.4}
+  className="text-5xl font-extrabold tracking-tight"
+/>
+```
+
+### Hero section
+
+```tsx
+<div className="flex min-h-screen items-center justify-center">
+  <TextReveal 
+    text="Build faster. Ship better. Scale infinitely."
+    className="max-w-4xl text-center text-6xl font-bold leading-tight"
+    duration={0.6}
+    staggerDelay={0.15}
+  />
+</div>
+```
+
+## Customization
+
+### Animation timing
+
+Adjust the `duration` and `staggerDelay` props to control the pacing:
+
+```tsx
+// Subtle and quick
+<TextReveal duration={0.3} staggerDelay={0.1} />
+
+// Smooth and moderate
+<TextReveal duration={0.5} staggerDelay={0.2} />
+
+// Bold and slow
+<TextReveal duration={0.8} staggerDelay={0.3} />
+```
+
+### Typography styles
+
+Use the `className` prop for full typography control:
+
+```tsx
+<TextReveal 
+  text="Your headline here"
+  className="text-7xl font-black tracking-tighter text-gradient"
+/>
+```
+
+### Toggle blur effect
+
+Disable the blur filter for a cleaner, simpler fade:
+
+```tsx
+<TextReveal 
+  text="Simple opacity fade"
+  filter={false}
+/>
+```
+
+<Note>
+  The component automatically triggers the animation on mount. For scroll-triggered animations, wrap it with a scroll detection library like `framer-motion`'s `useInView`.
+</Note>

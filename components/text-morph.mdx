@@ -1,0 +1,187 @@
+---
+title: Text Morph
+description: A React component that animates rotating text characters using Motion, customizable by words, interval, styling, and animation timing.
+---
+
+## Overview
+
+The Text Morph component cycles through an array of words with smooth character-by-character morphing animations. Each word enters and exits with staggered character animations, creating a fluid, engaging text rotation effect.
+
+**Use cases:**
+- Dynamic role or feature lists ("developer", "designer", "creator")
+- Rotating value propositions or benefits
+- Animated status or state indicators
+- Highlighting multiple product features sequentially
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/text-morph.json
+```
+
+## Usage
+
+```tsx
+import { TextMorph } from "@/components/forgeui/text-morph";
+
+export default function Example() {
+  return (
+    <div className="flex items-center gap-2 text-2xl">
+      <span>I am a</span>
+      <TextMorph 
+        words={["developer", "designer", "creator"]}
+        className="font-bold text-blue-600"
+      />
+    </div>
+  );
+}
+```
+
+### Imports
+
+```tsx
+import { TextMorph } from "@/components/forgeui/text-morph";
+```
+
+## Props
+
+<ParamField path="words" type="string[]" default='["engineer", "developer", "designer"]'>
+  Array of words to cycle through. The component automatically rotates between them at the specified interval.
+</ParamField>
+
+<ParamField path="interval" type="number" default="2500">
+  Time in milliseconds between word transitions. Controls how long each word stays visible before morphing to the next.
+</ParamField>
+
+<ParamField path="className" type="string">
+  CSS classes applied to the outer `motion.span` wrapper. Use this for styling the entire word container.
+</ParamField>
+
+<ParamField path="charClassName" type="string">
+  CSS classes applied to individual character `motion.span` elements. Use this for per-character styling.
+</ParamField>
+
+## Examples
+
+### Basic rotation
+
+```tsx
+<TextMorph 
+  words={["fast", "secure", "reliable"]}
+/>
+```
+
+### Custom interval
+
+```tsx
+<TextMorph 
+  words={["React", "Next.js", "TypeScript"]}
+  interval={1500}
+  className="text-purple-600 font-semibold"
+/>
+```
+
+### Styled characters
+
+```tsx
+<TextMorph 
+  words={["build", "ship", "scale"]}
+  charClassName="text-gradient bg-gradient-to-r from-blue-500 to-purple-600"
+/>
+```
+
+### Dynamic tagline
+
+```tsx
+<div className="text-center">
+  <h1 className="text-5xl font-bold">
+    Built for{" "}
+    <TextMorph 
+      words={["startups", "enterprises", "developers", "teams"]}
+      interval={2000}
+      className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500"
+    />
+  </h1>
+</div>
+```
+
+### Feature highlights
+
+```tsx
+<div className="flex items-center justify-center gap-3 text-3xl">
+  <span className="text-muted-foreground">We are</span>
+  <TextMorph 
+    words={["blazing fast", "fully secure", "infinitely scalable", "always reliable"]}
+    interval={3000}
+    className="font-black tracking-tight"
+  />
+</div>
+```
+
+### Status indicator
+
+```tsx
+<div className="flex items-center gap-2">
+  <div className="h-2 w-2 rounded-full bg-green-500" />
+  <TextMorph 
+    words={["online", "active", "ready"]}
+    interval={2000}
+    className="text-sm font-medium text-green-600"
+  />
+</div>
+```
+
+## Customization
+
+### Transition speed
+
+Control how long each word is visible by adjusting the `interval`:
+
+```tsx
+// Fast rotation (1 second)
+<TextMorph interval={1000} />
+
+// Standard rotation (2.5 seconds, default)
+<TextMorph interval={2500} />
+
+// Slow rotation (4 seconds)
+<TextMorph interval={4000} />
+```
+
+### Character animation
+
+The component animates each character individually with:
+- Vertical slide (5px y-offset)
+- Blur filter (5px blur)
+- Opacity fade
+- Staggered delay (0.03s per character)
+
+These values are hardcoded in text-morph.tsx:53-59 but can be modified in the source.
+
+### Styling options
+
+```tsx
+// Gradient text
+<TextMorph 
+  className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent"
+/>
+
+// Individual character styling
+<TextMorph 
+  charClassName="font-mono uppercase tracking-wider"
+/>
+
+// Combined wrapper and character styles
+<TextMorph 
+  className="text-4xl font-bold"
+  charClassName="hover:text-red-500 transition-colors"
+/>
+```
+
+<Tip>
+  The character stagger delay is set to 0.03s per character in the source code. For words with many characters, this creates a smooth wave effect. For shorter words, consider adjusting this value in the component source.
+</Tip>
+
+<Note>
+  The component returns `null` if the `words` array is empty, preventing render errors.
+</Note>

@@ -1,0 +1,264 @@
+---
+title: Stack ripple
+description: Animated stacked notification cards ripple open with smooth transitions, showing messages, signups, and billing reminders.
+---
+
+## Overview
+
+The stack ripple component creates an interactive stack of notification cards that expand and collapse with smooth ripple animations. When activated, the stacked cards spread apart vertically with spring-based physics, revealing all notifications at once. A toggle button allows users to show or hide all notifications.
+
+### Features
+
+- Stacked card layout with ripple expansion effect
+- Spring-based physics animations for natural motion
+- Customizable notification items with icons, titles, and timestamps
+- Interactive toggle button with animated icon rotation
+- Scale and translation animations for depth effect
+- Dark mode support
+- Fully customizable card content
+
+### Use cases
+
+- Notification centers and dashboards
+- Activity feed displays
+- Alert management interfaces
+- User notification panels
+- Message inbox previews
+- Timeline event displays
+
+## Installation
+
+```bash
+npx shadcn add stack-ripple
+```
+
+## Usage
+
+```tsx
+import StackRipple from "@/components/forgeui/stack-ripple";
+
+export default function Demo() {
+  return <StackRipple />;
+}
+```
+
+### With custom items
+
+```tsx
+import StackRipple from "@/components/forgeui/stack-ripple";
+import { BiSolidMessageRounded } from "react-icons/bi";
+import { FaDollarSign, FaUser } from "react-icons/fa6";
+
+const customItems = [
+  {
+    id: "item1",
+    icon: (
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF3D71]">
+        <BiSolidMessageRounded className="size-5 text-neutral-200" />
+      </span>
+    ),
+    title: "New Message",
+    description: "Forge UI",
+    time: "3 hrs ago",
+  },
+  {
+    id: "item2",
+    icon: (
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-400">
+        <FaUser className="size-5 text-neutral-100" />
+      </span>
+    ),
+    title: "User Signed Up",
+    description: "Forge UI",
+    time: "7 hrs ago",
+  },
+  {
+    id: "item3",
+    icon: (
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500">
+        <FaDollarSign className="size-5 text-neutral-200" />
+      </span>
+    ),
+    title: "Billing Reminder",
+    description: "Forge UI",
+    time: "9 hrs ago",
+  },
+];
+
+export default function Demo() {
+  return <StackRipple stackCardItems={customItems} />;
+}
+```
+
+### Imports
+
+Required imports for the component:
+
+```tsx
+import { AnimatePresence, motion, Variants } from "motion/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { MdKeyboardArrowDown } from "react-icons/md";
+```
+
+## Props
+
+<ParamField path="stackCardItems" type="StackCardItem[]">
+  An array of notification items to display in the stack. Each item must conform to the `StackCardItem` type.
+</ParamField>
+
+### StackCardItem type
+
+```tsx
+type StackCardItem = {
+  id: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  time: string;
+};
+```
+
+<ParamField path="StackCardItem.id" type="string" required>
+  Unique identifier for the notification card.
+</ParamField>
+
+<ParamField path="StackCardItem.icon" type="React.ReactNode" required>
+  Icon or visual element displayed on the left side of the card.
+</ParamField>
+
+<ParamField path="StackCardItem.title" type="string" required>
+  The main title text of the notification.
+</ParamField>
+
+<ParamField path="StackCardItem.description" type="string" required>
+  Secondary description or subtitle text.
+</ParamField>
+
+<ParamField path="StackCardItem.time" type="string" required>
+  Timestamp or time information for the notification.
+</ParamField>
+
+## Examples
+
+### Basic notification stack
+
+```tsx
+<StackRipple />
+```
+
+### Custom notifications
+
+```tsx
+const notifications = [
+  {
+    id: "msg1",
+    icon: <MessageIcon />,
+    title: "New Comment",
+    description: "John replied to your post",
+    time: "2m ago",
+  },
+  {
+    id: "msg2",
+    icon: <LikeIcon />,
+    title: "New Like",
+    description: "Sarah liked your photo",
+    time: "1h ago",
+  },
+  {
+    id: "msg3",
+    icon: <FollowIcon />,
+    title: "New Follower",
+    description: "Mike started following you",
+    time: "3h ago",
+  },
+];
+
+<StackRipple stackCardItems={notifications} />;
+```
+
+### Activity feed
+
+```tsx
+const activities = [
+  {
+    id: "act1",
+    icon: <CheckIcon className="text-green-500" />,
+    title: "Task Completed",
+    description: "Design review finished",
+    time: "30m ago",
+  },
+  {
+    id: "act2",
+    icon: <AlertIcon className="text-orange-500" />,
+    title: "Deadline Approaching",
+    description: "Project due tomorrow",
+    time: "2h ago",
+  },
+  {
+    id: "act3",
+    icon: <InfoIcon className="text-blue-500" />,
+    title: "System Update",
+    description: "Version 2.0 released",
+    time: "5h ago",
+  },
+];
+
+<StackRipple stackCardItems={activities} />;
+```
+
+## Customization
+
+### Animation variants
+
+The component uses spring-based animations with customizable variants:
+
+- `popup1Variant`: Top card translation (-55px)
+- `popup2Variant`: Middle card scale (0.95 to 1)
+- `popup3Variant`: Bottom card translation and scale (+55px)
+- `buttonVariant`: Toggle button movement
+- `iconVariant`: Arrow icon rotation (0° to 180°)
+
+All variants use spring physics with the following properties:
+
+```tsx
+transition: {
+  type: "spring",
+  damping: 15,
+  stiffness: 200,
+  mass: 1,
+  bounce: 0.3,
+  delay: 0.13,
+}
+```
+
+### Styling
+
+The cards feature:
+
+- Subtle box shadows for depth
+- Border and background with dark mode support
+- Rounded corners (rounded-xl)
+- Flexible layout with gap spacing
+- Responsive sizing with max-width constraints
+
+<Note>
+  The toggle button text changes between "Show All" and "Hide" based on the stack state, with smooth opacity transitions.
+</Note>
+
+### StackCard component
+
+Internal component that renders individual notification cards:
+
+```tsx
+type StackCardProps = {
+  top: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  time: string;
+  variant: Variants;
+};
+```
+
+Each card is positioned absolutely with dynamic `top` positioning and applies the specified animation variant.

@@ -1,0 +1,360 @@
+---
+title: Stats card
+description: A dynamic stats card comparing two individuals with avatars, data points, and animated background graph.
+---
+
+## Overview
+
+The stats card component displays a comparison between two individuals with smooth vertical transitions on hover, featuring animated graph backgrounds and statistical data. It features:
+
+- Hover-triggered vertical slide transition
+- Two-person comparison view
+- Animated SVG graph background
+- Gradient avatar containers
+- Trending indicators
+- Customizable statistics and colors
+
+**Use cases:**
+- Performance comparisons
+- Leaderboards
+- Team member highlights
+- Weekly/monthly top performers
+- Statistical dashboards
+- Competition tracking
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/stats-card
+```
+
+<Note>
+This component requires a CSS file. Make sure to include `statscard.css` in your project:
+
+```css
+.graph {
+  offset-anchor: 10px 0px;
+  animation: graph-animation-path;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.6, 0.3);
+  animation-duration: 3s;
+  animation-delay: 0s;
+}
+
+.graph-light-1 {
+  offset-path: path(
+    "M0 1C10 1 10 58 20 66C30 74 30 112 40 110C50 108 50 125 60 122C70 119 70 52 80 52C90 52 90 95 100 90C110 85 110 65 120 70C130 75 130 83 140 82C150 81 150 60 160 64C170 68 170 58 180 58C190 58 190 50 200 54C210 58 210 92 220 90C230 88 230 98 240 94C250 90 250 114 260 112C270 110 270 96 280 100C290 104 290 40 300 40C310 40 310 102 320 104C330 106 330 106 336 104"
+  );
+}
+
+@keyframes graph-animation-path {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+```
+</Note>
+
+## Usage
+
+The stats card compares two individuals with their statistics, displaying them in a hover-triggered transition.
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+export default function Example() {
+  return (
+    <StatsCard
+      gradientColor="#60A5FA"
+      statsType="PRs Merged"
+      firstPerson="Toji Fushiguro"
+      secondPerson="Gojo Satoru"
+      firstData={23}
+      secondData={18}
+      firstImage="/assets/toji.png"
+      secondImage="/assets/gojo.png"
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="gradientColor" type="string" default="#60A5FA">
+  Hex color for the animated graph gradient effect.
+</ParamField>
+
+<ParamField path="statsType" type="string" default="PRs Merged">
+  Label describing the type of statistic being displayed.
+</ParamField>
+
+<ParamField path="firstPerson" type="string" default="Toji Fushiguro">
+  Name of the first person (initially visible).
+</ParamField>
+
+<ParamField path="secondPerson" type="string" default="Gojo Satoru">
+  Name of the second person (visible on hover).
+</ParamField>
+
+<ParamField path="firstData" type="number" default={23}>
+  Statistical value for the first person.
+</ParamField>
+
+<ParamField path="secondData" type="number" default={18}>
+  Statistical value for the second person.
+</ParamField>
+
+<ParamField path="firstImage" type="string" default="/assets/toji.png">
+  Image URL or path for the first person's avatar.
+</ParamField>
+
+<ParamField path="secondImage" type="string" default="/assets/gojo.png">
+  Image URL or path for the second person's avatar.
+</ParamField>
+
+## Examples
+
+### Basic stats card
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+export default function PerformanceCard() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <StatsCard />
+    </div>
+  );
+}
+```
+
+### Custom statistics
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+export default function SalesLeaderboard() {
+  return (
+    <StatsCard
+      gradientColor="#10b981"
+      statsType="Sales This Month"
+      firstPerson="Alice Johnson"
+      secondPerson="Bob Smith"
+      firstData={127}
+      secondData={98}
+      firstImage="/team/alice.jpg"
+      secondImage="/team/bob.jpg"
+    />
+  );
+}
+```
+
+### Code contributions
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+export default function ContributorStats() {
+  return (
+    <StatsCard
+      gradientColor="#8b5cf6"
+      statsType="Commits"
+      firstPerson="Sarah Chen"
+      secondPerson="Mike Rodriguez"
+      firstData={156}
+      secondData={142}
+      firstImage="/avatars/sarah.jpg"
+      secondImage="/avatars/mike.jpg"
+    />
+  );
+}
+```
+
+### Multiple comparisons
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+const comparisons = [
+  {
+    type: "Issues Closed",
+    color: "#f59e0b",
+    person1: { name: "Emma Brown", data: 45, image: "/team/emma.jpg" },
+    person2: { name: "David Lee", data: 38, image: "/team/david.jpg" },
+  },
+  {
+    type: "Code Reviews",
+    color: "#06b6d4",
+    person1: { name: "Lisa Wang", data: 67, image: "/team/lisa.jpg" },
+    person2: { name: "Tom Harris", data: 54, image: "/team/tom.jpg" },
+  },
+  {
+    type: "Tests Written",
+    color: "#ec4899",
+    person1: { name: "Nina Patel", data: 234, image: "/team/nina.jpg" },
+    person2: { name: "Chris Kim", data: 201, image: "/team/chris.jpg" },
+  },
+];
+
+export default function TeamStatsGrid() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {comparisons.map((comp, index) => (
+        <StatsCard
+          key={index}
+          gradientColor={comp.color}
+          statsType={comp.type}
+          firstPerson={comp.person1.name}
+          secondPerson={comp.person2.name}
+          firstData={comp.person1.data}
+          secondData={comp.person2.data}
+          firstImage={comp.person1.image}
+          secondImage={comp.person2.image}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+### Weekly leaderboard
+
+```tsx
+import StatsCard from "@/components/forgeui/stats-card";
+import "@/components/forgeui/statscard.css";
+
+export default function WeeklyLeader() {
+  return (
+    <div className="space-y-4">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold">Top Performer of the Week</h2>
+        <p className="text-sm text-muted-foreground">Hover to see runner-up</p>
+      </div>
+      <StatsCard
+        gradientColor="#3b82f6"
+        statsType="Support Tickets"
+        firstPerson="Rachel Green"
+        secondPerson="Ross Geller"
+        firstData={89}
+        secondData={76}
+        firstImage="/support/rachel.jpg"
+        secondImage="/support/ross.jpg"
+      />
+    </div>
+  );
+}
+```
+
+## Customization
+
+### Graph animation speed
+
+Adjust the graph animation timing in `statscard.css`:
+
+```css
+.graph {
+  animation-duration: 3s;  /* Change to 5s for slower, 2s for faster */
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.6, 0.3);
+}
+```
+
+### Gradient colors
+
+Use different colors for the animated graph gradient:
+
+```tsx
+{/* Blue theme */}
+<StatsCard gradientColor="#3b82f6" />
+
+{/* Green theme */}
+<StatsCard gradientColor="#10b981" />
+
+{/* Purple theme */}
+<StatsCard gradientColor="#8b5cf6" />
+
+{/* Orange theme */}
+<StatsCard gradientColor="#f59e0b" />
+```
+
+### Transition speed
+
+Modify the hover transition speed by editing the component:
+
+```tsx
+<div className="transition duration-200 group-hover:-translate-y-80">
+  {/* Change duration-200 to: */}
+  {/* duration-300 for slower */}
+  {/* duration-100 for faster */}
+</div>
+```
+
+### Avatar styling
+
+Customize the avatar container:
+
+```tsx
+<div className="h-20 w-20 rounded-2xl border bg-gradient-to-br from-neutral-50 to-neutral-100">
+  {/* Change size: h-24 w-24 */}
+  {/* Change border radius: rounded-3xl */}
+  {/* Change gradient: from-blue-50 to-blue-100 */}
+</div>
+```
+
+### Trending indicator colors
+
+The first person shows a green trend indicator, the second shows red:
+
+```tsx
+{/* First person (winner) */}
+<TrendingUp className="h-3 w-3 text-green-500" />
+{/* Change to: text-blue-500, text-purple-500, etc. */}
+
+{/* Second person (runner-up) */}
+<TrendingUp className="h-3 w-3 text-red-500" />
+{/* Change to: text-orange-500, text-yellow-500, etc. */}
+```
+
+### Card mask
+
+The card uses a radial gradient mask. Adjust the mask intensity:
+
+```tsx
+<div className="[mask-image:radial-gradient(50%_90%_at_50%_50%,white_30%,transparent_100%)]">
+  {/* Change percentages: */}
+  {/* radial-gradient(60%_90%_at_50%_50%,white_40%,transparent_100%) */}
+</div>
+```
+
+### Stats badge styling
+
+Customize the statistics display badge:
+
+```tsx
+<div className="flex items-center gap-2 rounded-full bg-neutral-100/40 px-3 py-1">
+  {/* Change: bg-blue-100/40 for colored background */}
+  {/* Change: px-4 py-2 for larger badge */}
+  {/* Change: rounded-lg for less rounded */}
+</div>
+```
+
+### Custom graph path
+
+To create a different graph pattern, modify the SVG path in both the visible path and the CSS offset-path:
+
+```tsx
+{/* In the component */}
+<path d="M0 1C10 1 10 58 20 66..." />  {/* Your custom path */}
+
+{/* In statscard.css */}
+.graph-light-1 {
+  offset-path: path("M0 1C10 1 10 58 20 66...");  {/* Same path */}
+}
+```

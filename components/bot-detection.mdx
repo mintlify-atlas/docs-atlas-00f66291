@@ -1,0 +1,84 @@
+---
+title: Bot detection
+description: Animated radar-style component that simulates real-time bot detection using glowing pulses and scanning motion.
+---
+
+## Overview
+
+The bot detection component provides a visually engaging radar-style animation that simulates real-time bot detection. It features a scanning radar beam, animated dots representing potential threats, and a glowing pulse effect that highlights detected bots. This component is ideal for security dashboards, authentication flows, or any interface where you want to visualize bot protection in action.
+
+### Use cases
+
+- Security dashboard displays
+- Authentication and sign-up flow illustrations
+- Platform protection visualizations
+- Marketing pages showcasing security features
+
+## Installation
+
+```bash
+npx shadcn add bot-detection
+```
+
+## Usage
+
+```tsx
+import BotDetection from "@/components/forgeui/bot-detection";
+
+export default function Example() {
+  return (
+    <BotDetection
+      cardTitle="Bot Detection"
+      cardDescription="Experience fewer fraudulent sign-ups with our sophisticated, AI-driven bot detection that constantly adapts, ensuring high accuracy and efficient platform protection."
+    />
+  );
+}
+```
+
+## Props
+
+<ParamField path="cardTitle" type="string" default="Bot Detection">
+  The title displayed at the bottom of the component.
+</ParamField>
+
+<ParamField path="cardDescription" type="string" default="Experience fewer fraudulent sign-ups with our sophisticated, AI-driven bot detection that constantly adapts, ensuring high accuracy and efficient platform protection.">
+  The description text displayed below the title.
+</ParamField>
+
+## Examples
+
+### Default usage
+
+```tsx
+import BotDetection from "@/components/forgeui/bot-detection";
+
+export default function DefaultExample() {
+  return <BotDetection />;
+}
+```
+
+### Custom text
+
+```tsx
+import BotDetection from "@/components/forgeui/bot-detection";
+
+export default function CustomTextExample() {
+  return (
+    <BotDetection
+      cardTitle="Advanced Security"
+      cardDescription="Our AI-powered bot detection system identifies and blocks malicious traffic before it reaches your platform."
+    />
+  );
+}
+```
+
+## Customization
+
+The component uses the following customizable aspects:
+
+- **Animation timing**: The radar scan completes a full cycle every 18 seconds, with detection pulses occurring every 3 seconds
+- **Color scheme**: Uses red colors for threat detection (`red-400`, `red-500`) and neutral colors for the background
+- **Dimensions**: Fixed height of 120 (30rem) and max width of 87.5 (21.875rem)
+- **Detection positions**: Nine predefined positions are animated in sequence to simulate bot detection
+
+You can customize the appearance by modifying the component's className or by overriding the styles using Tailwind utilities.

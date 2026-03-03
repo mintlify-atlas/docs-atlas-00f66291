@@ -1,0 +1,314 @@
+---
+title: Security card
+description: Dynamic security identity card with animated verification, glowing avatar outline, and infinite character scramble stream.
+---
+
+## Overview
+
+The security card component displays a futuristic identity verification interface with animated SVG outline drawing, character scrambling, and verification checkmarks. It features:
+
+- Animated SVG face outline with glowing cyan effect
+- Infinite character scramble background
+- Auto-looping verification animation
+- Smooth verification checkmark reveal
+- Gradient background with shadow effects
+- Customizable user information
+
+**Use cases:**
+- Authentication showcases
+- Identity verification demos
+- Security feature highlights
+- Access control visualizations
+- User verification flows
+
+## Installation
+
+```bash
+npx shadcn add https://forgeui.in/r/security-card
+```
+
+<Note>
+This component requires a CSS file. Make sure to include `security-card.css` in your project:
+
+```css
+.animate-draw-outline {
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: draw-outline;
+  animation-duration: 4s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes draw-outline {
+  from {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 160;
+  }
+  to {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw;
+  animation-duration: 7s;
+  animation-timing-function: ease;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes draw {
+  from {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+  }
+}
+```
+</Note>
+
+## Usage
+
+The security card is a self-contained animated component that loops the verification animation automatically.
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+export default function Example() {
+  return <SecurityCard />;
+}
+```
+
+## Props
+
+<ParamField path="delay" type="number" default={5000}>
+  Delay in milliseconds before the animation restarts. Minimum value is 5000ms (5 seconds).
+</ParamField>
+
+<ParamField path="name" type="string" default="Liam Parker">
+  The name displayed on the security card.
+</ParamField>
+
+<ParamField path="email" type="string" default="liam.parker@example.com">
+  The email address displayed below the name.
+</ParamField>
+
+## Examples
+
+### Basic security card
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+export default function SecurityDemo() {
+  return (
+    <div className="flex items-center justify-center p-8">
+      <SecurityCard />
+    </div>
+  );
+}
+```
+
+### Custom user information
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+export default function CustomUser() {
+  return (
+    <SecurityCard
+      name="Sarah Mitchell"
+      email="sarah.mitchell@company.com"
+    />
+  );
+}
+```
+
+### Faster loop cycle
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+export default function FastVerification() {
+  return (
+    <SecurityCard 
+      delay={5000}  // Minimum 5 seconds
+      name="Alex Johnson"
+      email="alex@example.com"
+    />
+  );
+}
+```
+
+### Authentication flow
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+export default function AuthFlow() {
+  return (
+    <div className="flex flex-col items-center gap-6 p-8">
+      <h2 className="text-3xl font-bold">Smart Access Control</h2>
+      <p className="max-w-md text-center text-muted-foreground">
+        Verifying your identity using real-time signals and device history
+      </p>
+      <SecurityCard
+        name="Jamie Chen"
+        email="jamie.chen@secure.app"
+        delay={6000}
+      />
+    </div>
+  );
+}
+```
+
+### Multiple verification cards
+
+```tsx
+import SecurityCard from "@/components/forgeui/security-card";
+import "@/components/forgeui/security-card.css";
+
+const users = [
+  { name: "Alice Brown", email: "alice@company.com" },
+  { name: "Bob Wilson", email: "bob@company.com" },
+  { name: "Carol Davis", email: "carol@company.com" },
+];
+
+export default function VerificationGrid() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {users.map((user) => (
+        <SecurityCard
+          key={user.email}
+          name={user.name}
+          email={user.email}
+          delay={7000}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+## Customization
+
+### Animation timing
+
+The outline drawing animation is controlled via CSS. Adjust the timing in `security-card.css`:
+
+```css
+.animate-draw-outline {
+  animation-duration: 4s;  /* Change to 3s for faster, 6s for slower */
+}
+
+.animate-draw {
+  animation-duration: 7s;  /* Face detail animation */
+  animation-delay: 0.5s;   /* Delay before starting */
+}
+```
+
+### Glow color
+
+The animated outline uses cyan (#06b6d4). Change this in the SVG paths:
+
+```tsx
+<path
+  className="animate-draw-outline stroke-[#06b6d4]"  // Change color here
+  // Example: stroke-[#8b5cf6] for purple
+  // Example: stroke-[#f59e0b] for orange
+/>
+```
+
+### Checkmark timing
+
+The verification checkmark appears with Motion animations:
+
+```tsx
+<motion.circle
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{
+    duration: 0.3,
+    delay: 2.3,  // Change this to adjust when checkmark appears
+  }}
+/>
+```
+
+### Character scramble speed
+
+Adjust the scrambled text rotation speed:
+
+```tsx
+useEffect(() => {
+  const interval = setInterval(() => {
+    index.current = (index.current + 1) % SCRAMBLED_STRINGS.length;
+    setText(SCRAMBLED_STRINGS[index.current]);
+  }, 500);  // Change to 300 for faster, 1000 for slower
+
+  return () => clearInterval(interval);
+}, []);
+```
+
+### Card dimensions
+
+Modify the card size:
+
+```tsx
+<div className="h-[27rem] w-full max-w-[350px]">
+  {/* Change to h-[30rem] max-w-[400px] for larger card */}
+</div>
+```
+
+### Background gradient
+
+Customize the curved background gradient:
+
+```tsx
+<div className="bg-gradient-to-b from-neutral-200 to-neutral-50">
+  {/* Change colors: */}
+  {/* from-blue-200 to-blue-50 */}
+  {/* from-purple-200 to-purple-50 */}
+</div>
+```
+
+### Name reveal animation
+
+Adjust the name slide-in effect:
+
+```tsx
+<motion.p
+  initial={{ x: 8 }}
+  animate={{ x: -2 }}
+  transition={{
+    duration: 0.4,  // Change animation speed
+    ease: "easeInOut",
+    delay: 1.8,  // Change when name appears
+  }}
+>
+  {name}
+</motion.p>
+```
+
+### Remove scrambled text
+
+To disable the background character scramble, remove or comment out the `<InfiniteScrambler />` component:
+
+```tsx
+<Securitycard name={name} email={email}>
+  {/* <InfiniteScrambler /> */}  {/* Remove this line */}
+  <ContainerMask />
+  {/* ... rest of the component */}
+</Securitycard>
+```
