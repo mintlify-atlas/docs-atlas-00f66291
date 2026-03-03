@@ -1,0 +1,117 @@
+{
+  "projectType": "frontend",
+  "projectName": "ForgeUI",
+  "projectDescription": "An animation-first React component library for building rich, modern, and interactive UI components.",
+  "theme": "palm",
+  "primaryColor": "#6366f1",
+  "lightColor": "#818cf8",
+  "darkColor": "#4f46e5",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/animations",
+              "concepts/theming",
+              "concepts/customization"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Forms & Input",
+            "pages": [
+              "components/animated-form",
+              "components/animated-otp",
+              "components/vault-lock"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "components/animated-tabs",
+              "components/spectrum-switcher"
+            ]
+          },
+          {
+            "group": "Cards",
+            "pages": [
+              "components/expandable-card",
+              "components/fraud-card",
+              "components/onboard-card",
+              "components/security-card",
+              "components/social-card",
+              "components/stats-card"
+            ]
+          },
+          {
+            "group": "Text Effects",
+            "pages": [
+              "components/text-reveal",
+              "components/text-morph",
+              "components/text-shimmer"
+            ]
+          },
+          {
+            "group": "Notifications",
+            "pages": [
+              "components/notification-center",
+              "components/notification-panel",
+              "components/stack-ripple"
+            ]
+          },
+          {
+            "group": "Special Effects",
+            "pages": [
+              "components/bot-detection",
+              "components/framework-agnostic"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "19 fully animated React components built with Framer Motion",
+    "Dark mode and theme-aware components",
+    "Built on shadcn/ui and Tailwind CSS",
+    "TypeScript support with full type definitions",
+    "Production-ready with minimal setup",
+    "Focus on micro-interactions and visual delight"
+  ],
+  "publicApiSurface": [
+    "AnimatedForm",
+    "AnimatedOTP",
+    "AnimatedTabs",
+    "BotDetection",
+    "ExpandableCard",
+    "FrameworkAgnostic",
+    "FraudCard",
+    "NotificationCenter",
+    "NotificationPanel",
+    "OnboardCard",
+    "SecurityCard",
+    "SocialCard",
+    "StatsCard",
+    "SpectrumSwitcher",
+    "TextReveal",
+    "TextMorph",
+    "TextShimmer",
+    "StackRipple",
+    "VaultLock"
+  ]
+}
